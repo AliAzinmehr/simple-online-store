@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>فروشگاه اینترنتی - صفحه اصلی</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">برند<span class="logo-accent">شاپ</span></a>
+      <nav class="main-nav" aria-label="ناوبری اصلی">
+        <ul class="nav-list">
+          <li><a href="#">خانه</a></li>
+          <li><a href="#">محصولات</a></li>
+          <li><a href="#">دسته‌ها</a></li>
+          <li><a href="#">درباره ما</a></li>
+          <li><a href="#">تماس</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <button class="icon-btn search-btn" aria-label="جستجو">🔍</button>
+        <a href="#" class="icon-btn cart-btn" aria-label="سبد خرید">🛒<span class="cart-count">3</span></a>
+        <a href="login.html" class="auth-link">ورود / ثبت‌نام</a>
+        <button class="icon-btn menu-toggle" aria-label="باز کردن منو">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h1>خوش آمدید به فروشگاه ما</h1>
+        <p>بهترین محصولات، ارسال سریع و پشتیبانی ۲۴ ساعته. همین حالا خرید خود را شروع کنید.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#">خرید ویژه</a>
+          <a class="btn btn-outline" href="#">مشاهده دسته‌ها</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="img/Baner.jpg" alt="بنر محصولات" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURED CATEGORIES ========== -->
+  <section class="categories container">
+    <h2 class="section-title">دسته‌های محبوب</h2>
+    <div class="cat-grid">
+      <article class="cat-card"><img src="img/Hp630G10.jpg" alt="لپتاپ"><h3>لپتاپ</h3><p>مدل‌های جدید و کارآمد</p></article>
+      <article class="cat-card"><img src="img/Sumsung.jpg" alt="گوشی"><h3>گوشی</h3><p>آخرین گوشی‌ها با تخفیف</p></article>
+      <article class="cat-card"><img src="img/Ssd512.jpg" alt="لوازم جانبی"><h3>لوازم جانبی</h3><p>هارد، کیس و شارژر</p></article>
+      <article class="cat-card"><img src="img/Tuf27.jpg" alt="نمایشگر"><h3>نمایشگر</h3><p>برای خانه و محل کار</p></article>
+    </div>
+  </section>
+
+  <!-- ========== FEATURED PRODUCTS ========== -->
+  <section class="products container">
+    <h2 class="section-title">وِیژه‌ها</h2>
+    <div class="products-grid">
+      <p>در حال بارگذاری محصولات...</p>
+    </div>
+  </section>
+
+  <!-- ========== PROMO BANNER ========== -->
+  <section class="promo container">
+    <div class="promo-card">
+      <h3>ارسال رایگان برای سفارش‌های بالای ۵۰۰٬۰۰۰ تومان</h3>
+      <p>همین امروز سفارش دهید و از مزایا بهره‌مند شوید.</p>
+      <a class="btn btn-outline" href="#">شرایط را ببینید</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <h4>دربارهٔ ما</h4>
+        <p>سایت فروشگاهی برای کلاس مبتنی بر وب آقای مهندس نجاری</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>خدمات</h4>
+        <ul class="footer-links">
+          <li><a href="#">پشتیبانی</a></li>
+          <li><a href="#">قوانین و حریم خصوصی</a></li>
+          <li><a href="#">پیگیری سفارش</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>ارتباط</h4>
+        <p>ایمیل: mohammad.nazari0283@gmail.com</p>
+        <p>تلفن: 09386110283 - 09151638137</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // باز کردن منوی موبایل
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    toggle?.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    // ===== دریافت محصولات از API =====
+    async function loadProducts() {
+      const grid = document.querySelector('.products-grid');
+      grid.innerHTML = '<p>در حال بارگذاری...</p>';
+
+      try {
+        const res = await fetch('/api/products');
+        const products = await res.json();
+
+        if (!Array.isArray(products) || products.length === 0) {
+          grid.innerHTML = '<p>محصولی یافت نشد.</p>';
+          return;
+        }
+
+        grid.innerHTML = ''; // پاک کردن متن پیش‌فرض
+
+        products.forEach(p => {
+          const card = document.createElement('article');
+          card.className = 'product-card';
+          card.innerHTML = `
+            <img src="${p.image_url || 'img/default.jpg'}" alt="${p.name}">
+            <div class="product-body">
+              <h3 class="product-title">${p.name}</h3>
+              <p class="product-desc">${p.description || ''}</p>
+              <div class="product-meta">
+                <span class="price">${Number(p.price).toLocaleString()} تومان</span>
+                <button class="btn btn-sm">افزودن به سبد</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('❌ خطا در دریافت محصولات:', err);
+        grid.innerHTML = '<p style="color:red;">خطا در دریافت محصولات.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</body>
+</html>
