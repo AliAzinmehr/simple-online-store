@@ -1,31 +1,21 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ورود به حساب کاربری</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<form id="loginForm">
+  <input type="email" name="email" placeholder="ایمیل" required>
+  <input type="password" name="password" placeholder="رمز عبور" required>
+  <button type="submit">ورود</button>
+</form>
 
-  <div class="login-container">
-    <form class="login-form">
-      <h2>ورود به حساب</h2>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+  alert(result.message);
+  if (result.token) localStorage.setItem('token', result.token);
+});
+</script>
 
-      <label for="email">ایمیل</label>
-      <input type="email" id="email" placeholder="ایمیل خود را وارد کنید" required>
-
-      <label for="password">رمز عبور</label>
-      <input type="password" id="password" placeholder="رمز عبور" required>
-
-      <button type="submit" class="btn btn-primary btn-block">ورود</button>
-
-      <p class="login-footer">
-        حساب ندارید؟
-        <a href="register.html" class="link-accent">ثبت‌نام کنید</a>
-      </p>
-    </form>
-  </div>
-
-</body>
-</html>
