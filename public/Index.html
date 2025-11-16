@@ -1,153 +1,709 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>فروشگاه اینترنتی - صفحه اصلی</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فروشگاه آنلاین | SIMPLE SHOP</title>
+
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Fonts: Vazirmatn + Yekan Bakh -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=Yekan+Bakh:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-dark: #5f3dc4;
+      --success: #00b894;
+      --danger: #d63031;
+      --light: #f8f9fa;
+      --dark: #2d3436;
+      --gray: #b2bec3;
+    }
+
+    * { font-family: 'Vazirmatn', 'Yekan Bakh', Tahoma, sans-serif; }
+
+    body {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--dark);
+      transition: all 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .sidebar {
+      min-width: 260px;
+      max-width: 260px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-left: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      animation: slideInRight 0.5s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .sidebar .nav-link {
+      border-radius: 1rem;
+      margin: 8px 12px;
+      padding: 10px 15px;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .sidebar .nav-link:hover:not(.active) {
+      background: rgba(108, 92, 231, 0.1);
+      color: var(--primary);
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.7s ease-out;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-img {
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 1.5rem;
+      animation: fadeInUp 0.7s ease-out;
+    }
+
+    .cart-floating {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: var(--primary);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+
+    .cart-floating:hover {
+      transform: scale(1.1);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      font-size: 0.7rem;
+    }
+
+    .table {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 1rem;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .form-control {
+      border-radius: 1rem;
+      border: 1.5px solid #ddd;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+    }
+
+    .offcanvas {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 992px) {
+      .sidebar { display: none; }
+      .content { padding: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ========== HEADER ========== -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#" class="logo">برند<span class="logo-accent">شاپ</span></a>
-      <nav class="main-nav" aria-label="ناوبری اصلی">
-        <ul class="nav-list">
-          <li><a href="#">خانه</a></li>
-          <li><a href="#">محصولات</a></li>
-          <li><a href="#">دسته‌ها</a></li>
-          <li><a href="#">درباره ما</a></li>
-          <li><a href="#">تماس</a></li>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">🛒 SIMPLE SHOP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="#" id="navHome">خانه</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="navProductsLink">محصولات</a></li>
+          <li class="nav-item d-none" id="navOrdersNav"><a class="nav-link" href="#" id="navOrders">سفارش‌ها</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <span id="welcomeUser"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" id="logoutBtn">خروج</a></li>
+            </ul>
+          </li>
         </ul>
-      </nav>
-      <div class="header-tools">
-        <button class="icon-btn search-btn" aria-label="جستجو">🔍</button>
-        <a href="#" class="icon-btn cart-btn" aria-label="سبد خرید">🛒<span class="cart-count">3</span></a>
-        <a href="login.html" class="auth-link">ورود / ثبت‌نام</a>
-        <button class="icon-btn menu-toggle" aria-label="باز کردن منو">☰</button>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <!-- ========== HERO ========== -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>خوش آمدید به فروشگاه ما</h1>
-        <p>بهترین محصولات، ارسال سریع و پشتیبانی ۲۴ ساعته. همین حالا خرید خود را شروع کنید.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#">خرید ویژه</a>
-          <a class="btn btn-outline" href="#">مشاهده دسته‌ها</a>
+  <div class="d-flex">
+    <!-- Sidebar (Admin) -->
+    <div class="sidebar d-none" id="adminSidebar">
+      <div class="p-4">
+        <h6 class="text-muted">مدیریت</h6>
+        <ul class="nav nav-pills flex-column mt-3">
+          <li class="nav-item mb-2"><a class="nav-link active" href="#" id="navDashboard"><i class="bi bi-speedometer2 me-2"></i> داشبورد</a></li>
+          <li class="nav-item mb-2"><a class="nav-link" href="#" id="navAdminProducts"><i class="bi bi-box-seam me-2"></i> محصولات</a></li>
+          <li class="nav-item mb-2"><a class="nav-link" href="#" id="navAdminOrders"><i class="bi bi-cart-check me-2"></i> سفارش‌ها</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Hero (Customer) -->
+      <div class="hero d-none" id="heroSection">
+        <h1 class="display-5 fw-bold">به فروشگاه ما خوش آمدید!</h1>
+        <p class="lead">بهترین محصولات با بهترین قیمت</p>
+        <button class="btn btn-primary" id="shopNowBtn">شروع خرید</button>
+      </div>
+
+      <!-- Customer Products -->
+      <div id="customerView">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3>محصولات</h3>
+          <input type="text" class="form-control w-auto" placeholder="جستجو..." id="searchInput">
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="productsContainer"></div>
+      </div>
+
+      <!-- Admin Dashboard -->
+      <div id="adminView" class="d-none">
+        <div class="row mb-4" id="statsRow"></div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5>مدیریت محصولات</h5>
+          <div>
+            <button class="btn btn-primary me-2" id="openAddProduct"><i class="bi bi-plus-lg"></i> افزودن</button>
+            <button class="btn btn-outline-secondary" id="refreshProducts"><i class="bi bi-arrow-clockwise"></i></button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-primary">
+              <tr>
+                <th>#</th><th>تصویر</th><th>نام</th><th>قیمت</th><th>موجودی</th><th>دسته</th><th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="productsTbody"></tbody>
+          </table>
         </div>
       </div>
-      <div class="hero-image">
-        <img src="img/Baner.jpg" alt="بنر محصولات" />
+    </div>
+  </div>
+
+  <!-- Floating Cart -->
+  <div class="cart-floating d-none" id="cartFloating" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+    <i class="bi bi-cart3 fs-4"></i>
+    <span class="badge bg-danger rounded-pill cart-badge" id="cartCount">0</span>
+  </div>
+
+  <!-- Cart Offcanvas -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">سبد خرید</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="cartItems">
+      <p class="text-muted">سبد خرید شما خالی است.</p>
+    </div>
+    <div class="offcanvas-footer p-3 border-top d-none" id="cartFooter">
+      <div class="d-flex justify-content-between mb-2">
+        <strong>جمع کل:</strong>
+        <strong id="cartTotal">۰ تومان</strong>
+      </div>
+      <button class="btn btn-success w-100" id="checkoutBtn">ثبت سفارش</button>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="addProductForm">
+          <div class="modal-header">
+            <h5 class="modal-title">افزودن محصول جدید</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">نام محصول</label>
+              <input id="p_name" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">قیمت (تومان)</label>
+              <input id="p_price" type="number" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">موجودی</label>
+              <input id="p_stock" type="number" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">دسته‌بندی</label>
+              <input id="p_category" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">لینک تصویر</label>
+              <input id="p_image" class="form-control" placeholder="https://example.com/image.jpg" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+            <button type="submit" class="btn btn-primary">افزودن محصول</button>
+          </div>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ========== FEATURED CATEGORIES ========== -->
-  <section class="categories container">
-    <h2 class="section-title">دسته‌های محبوب</h2>
-    <div class="cat-grid">
-      <article class="cat-card"><img src="img/Hp630G10.jpg" alt="لپتاپ"><h3>لپتاپ</h3><p>مدل‌های جدید و کارآمد</p></article>
-      <article class="cat-card"><img src="img/Sumsung.jpg" alt="گوشی"><h3>گوشی</h3><p>آخرین گوشی‌ها با تخفیف</p></article>
-      <article class="cat-card"><img src="img/Ssd512.jpg" alt="لوازم جانبی"><h3>لوازم جانبی</h3><p>هارد، کیس و شارژر</p></article>
-      <article class="cat-card"><img src="img/Tuf27.jpg" alt="نمایشگر"><h3>نمایشگر</h3><p>برای خانه و محل کار</p></article>
-    </div>
-  </section>
-
-  <!-- ========== FEATURED PRODUCTS ========== -->
-  <section class="products container">
-    <h2 class="section-title">وِیژه‌ها</h2>
-    <div class="products-grid">
-      <p>در حال بارگذاری محصولات...</p>
-    </div>
-  </section>
-
-  <!-- ========== PROMO BANNER ========== -->
-  <section class="promo container">
-    <div class="promo-card">
-      <h3>ارسال رایگان برای سفارش‌های بالای ۵۰۰٬۰۰۰ تومان</h3>
-      <p>همین امروز سفارش دهید و از مزایا بهره‌مند شوید.</p>
-      <a class="btn btn-outline" href="#">شرایط را ببینید</a>
-    </div>
-  </section>
-
-  <!-- ========== FOOTER ========== -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-col">
-        <h4>دربارهٔ ما</h4>
-        <p>سایت فروشگاهی برای کلاس مبتنی بر وب آقای مهندس نجاری</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>خدمات</h4>
-        <ul class="footer-links">
-          <li><a href="#">پشتیبانی</a></li>
-          <li><a href="#">قوانین و حریم خصوصی</a></li>
-          <li><a href="#">پیگیری سفارش</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>ارتباط</h4>
-        <p>ایمیل: mohammad.nazari0283@gmail.com</p>
-        <p>تلفن: 09386110283 - 09151638137</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ========== SCRIPTS ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // باز کردن منوی موبایل
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    toggle?.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role') || 'customer';
+    const userName = localStorage.getItem('userName') || 'مهمان';
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-    // ===== دریافت محصولات از API =====
-    async function loadProducts() {
-      const grid = document.querySelector('.products-grid');
-      grid.innerHTML = '<p>در حال بارگذاری...</p>';
+    // Elements
+    const welcomeUser = document.getElementById('welcomeUser');
+    const adminView = document.getElementById('adminView');
+    const customerView = document.getElementById('customerView');
+    const adminSidebar = document.getElementById('adminSidebar');
+    const heroSection = document.getElementById('heroSection');
+    const productsContainer = document.getElementById('productsContainer');
+    const productsTbody = document.getElementById('productsTbody');
+    const statsRow = document.getElementById('statsRow');
+    const cartFloating = document.getElementById('cartFloating');
+    const cartCount = document.getElementById('cartCount');
+    const cartItems = document.getElementById('cartItems');
+    const cartFooter = document.getElementById('cartFooter');
+    const cartTotal = document.getElementById('cartTotal');
 
-      try {
-        const res = await fetch('/api/products');
-        const products = await res.json();
+    welcomeUser.innerText = userName;
 
-        if (!Array.isArray(products) || products.length === 0) {
-          grid.innerHTML = '<p>محصولی یافت نشد.</p>';
-          return;
-        }
+    if (!token) {
+      location.href = 'login.html';
+    }
 
-        grid.innerHTML = ''; // پاک کردن متن پیش‌فرض
+    // API Helper
+    const api = (path, opts = {}) => {
+      opts.headers = opts.headers || {};
+      opts.headers['Content-Type'] = 'application/json';
+      opts.headers['Authorization'] = 'Bearer ' + token;
+      return fetch(path, opts).then(r => r.json().then(d => ({ ok: r.ok, data: d })).catch(() => ({ ok: false })));
+    };
 
-        products.forEach(p => {
-          const card = document.createElement('article');
-          card.className = 'product-card';
-          card.innerHTML = `
-            <img src="${p.image_url || 'img/default.jpg'}" alt="${p.name}">
-            <div class="product-body">
-              <h3 class="product-title">${p.name}</h3>
-              <p class="product-desc">${p.description || ''}</p>
-              <div class="product-meta">
-                <span class="price">${Number(p.price).toLocaleString()} تومان</span>
-                <button class="btn btn-sm">افزودن به سبد</button>
+    // Logout
+    document.getElementById('logoutBtn').onclick = async () => {
+      try { await fetch('/api/logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } }); } catch {}
+      localStorage.clear();
+      location.href = 'login.html';
+    };
+
+    // Role-based UI
+    if (role === 'admin') {
+      adminSidebar.classList.remove('d-none');
+      adminView.classList.remove('d-none');
+      customerView.classList.add('d-none');
+      document.getElementById('navOrdersNav').classList.remove('d-none'); // ادمین
+      loadAdminDashboard();
+    } else {
+      heroSection.classList.remove('d-none');
+      cartFloating.classList.remove('d-none');
+      document.getElementById('navOrdersNav').classList.remove('d-none'); // مشتری هم ببینه
+      loadCustomerProducts();
+      updateCart();
+    }
+
+    // اضافه کن در <script>
+document.getElementById('navOrders').onclick = async () => {
+  const res = await api('/api/dashboard');
+  if (res.ok && res.data.role === 'customer') {
+    showCustomerOrders(res.data.orders);
+  }
+};
+
+function showCustomerOrders(orders) {
+  customerView.innerHTML = `
+    <h3 class="mb-4">سفارش‌های شما</h3>
+    ${orders.length ? `
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead><tr><th>#</th><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+          <tbody>
+            ${orders.map(o => `
+              <tr>
+                <td>${o.id}</td>
+                <td>${new Date(o.order_date).toLocaleDateString('fa-IR')}</td>
+                <td>${o.total_price.toLocaleString()} تومان</td>
+                <td><span class="badge bg-${o.status === 'completed' ? 'success' : 'warning'}">${o.status || 'در حال پردازش'}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    ` : '<p class="text-muted">سفارشی ثبت نشده است.</p>'}
+  `;
+}
+
+    // Load Customer Products
+    async function loadCustomerProducts() {
+      const res = await api('/api/products');
+      if (res.ok) renderCustomerProducts(res.data);
+    }
+
+    function renderCustomerProducts(products) {
+      productsContainer.innerHTML = '';
+      if (!products.length) {
+        productsContainer.innerHTML = '<div class="col-12 text-center"><p class="text-muted">محصولی یافت نشد.</p></div>';
+        return;
+      }
+      products.forEach(p => {
+        const inCart = cart.find(i => i.id === p.id);
+        const col = document.createElement('div');
+        col.className = 'col';
+        col.innerHTML = `
+          <div class="card product-card h-100">
+            <img src="${p.image_url || 'https://via.placeholder.com/300'}" class="product-img" alt="${p.name}">
+            <div class="card-body d-flex flex-column">
+              <h6 class="card-title">${p.name}</h6>
+              <p class="text-muted small">${p.category || 'بدون دسته'}</p>
+              <div class="mt-auto">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <strong class="text-primary">${Number(p.price).toLocaleString()} تومان</strong>
+                  <span class="badge ${p.stock > 0 ? 'bg-success' : 'bg-danger'}">${p.stock > 0 ? p.stock + ' موجود' : 'ناموجود'}</span>
+                </div>
+                <button class="btn btn-primary w-100 btn-add-cart" data-id="${p.id}" ${p.stock === 0 ? 'disabled' : ''}>
+                  ${inCart ? 'در سبد' : 'افزودن به سبد'}
+                </button>
               </div>
             </div>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        console.error('❌ خطا در دریافت محصولات:', err);
-        grid.innerHTML = '<p style="color:red;">خطا در دریافت محصولات.</p>';
+          </div>`;
+        productsContainer.appendChild(col);
+      });
+
+      document.querySelectorAll('.btn-add-cart').forEach(btn => {
+        btn.onclick = () => addToCart(btn.dataset.id);
+      });
+    }
+
+    // Cart Functions
+    function addToCart(productId) {
+      const product = productsContainer.querySelector(`.btn-add-cart[data-id="${productId}"]`).closest('.col');
+      const name = product.querySelector('.card-title').innerText;
+      const price = parseInt(product.querySelector('.text-primary').innerText.replace(/[^0-9]/g, ''));
+      const img = product.querySelector('img').src;
+
+      const existing = cart.find(i => i.id == productId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id: productId, name, price, img, qty: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCart();
+      showAlert('به سبد اضافه شد!', 'success');
+    }
+
+    function updateCart() {
+      cartCount.innerText = cart.reduce((s, i) => s + i.qty, 0);
+      renderCartItems();
+    }
+
+    function renderCartItems() {
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="text-muted">سبد خرید شما خالی است.</p>';
+        cartFooter.classList.add('d-none');
+        return;
+      }
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price * item.qty;
+        const div = document.createElement('div');
+        div.className = 'd-flex align-items-center mb-3 pb-3 border-bottom';
+        div.innerHTML = `
+          <img src="${item.img}" class="rounded me-3" style="width:60px;height:60px;object-fit:cover;">
+          <div class="flex-grow-1">
+            <h6 class="mb-1">${item.name}</h6>
+            <small class="text-muted">${item.price.toLocaleString()} تومان × ${item.qty}</small>
+          </div>
+          <button class="btn btn-sm btn-danger btn-remove-cart" data-idx="${idx}">حذف</button>`;
+        cartItems.appendChild(div);
+      });
+      cartTotal.innerText = total.toLocaleString() + ' تومان';
+      cartFooter.classList.remove('d-none');
+
+      document.querySelectorAll('.btn-remove-cart').forEach(b => {
+        b.onclick = () => {
+          cart.splice(b.dataset.idx, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCart();
+        };
+      });
+    }
+
+    document.getElementById('checkoutBtn').onclick = async () => {
+      if (cart.length === 0) return;
+      const res = await api('/api/orders', {
+        method: 'POST',
+        body: JSON.stringify({ items: cart })
+      });
+      if (res.ok) {
+        showAlert('سفارش با موفقیت ثبت شد!', 'success');
+        localStorage.removeItem('cart');
+        cart = [];
+        updateCart();
+      } else {
+        showAlert(res.data?.message || 'خطا در ثبت سفارش', 'danger');
+      }
+    };
+
+    // Admin Dashboard
+    async function loadAdminDashboard() {
+      const res = await api('/api/dashboard');
+      if (res.ok) {
+        renderStats(res.data.stats);
+        renderAdminProducts(res.data.products || []);
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadProducts);
+    function renderStats(stats) {
+      statsRow.innerHTML = `
+        <div class="col-md-4 mb-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-box-seam text-primary fs-2 me-3"></i>
+              <div>
+                <h6 class="text-muted">محصولات</h6>
+                <h3 class="mb-0">${stats.productCount || 0}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-cart-check text-success fs-2 me-3"></i>
+              <div>
+                <h6 class="text-muted">سفارش‌ها</h6>
+                <h3 class="mb-0">${stats.orderCount || 0}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-currency-exchange text-warning fs-2 me-3"></i>
+              <div>
+                <h6 class="text-muted">درآمد کل</h6>
+                <h3 class="mb-0">${(stats.totalRevenue || 0).toLocaleString()} تومان</h3>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderAdminProducts(list) {
+      productsTbody.innerHTML = '';
+      if (!list.length) {
+        productsTbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">محصولی یافت نشد</td></tr>';
+        return;
+      }
+      list.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${p.id}</td>
+          <td><img src="${p.image_url || 'https://via.placeholder.com/50'}" class="rounded" style="width:50px;height:50px;object-fit:cover;"></td>
+          <td>${p.name}</td>
+          <td>${p.price.toLocaleString()}</td>
+          <td><span class="badge ${p.stock > 0 ? 'bg-success' : 'bg-danger'}">${p.stock}</span></td>
+          <td>${p.category || '-'}</td>
+          <td>
+            <button class="btn btn-sm btn-danger btn-delete" data-id="${p.id}">حذف</button>
+          </td>`;
+        productsTbody.appendChild(tr);
+      });
+
+      document.querySelectorAll('.btn-delete').forEach(b => {
+        b.onclick = async () => {
+          if (!confirm('حذف شود؟')) return;
+          const res = await fetch('/api/admin/products/' + b.dataset.id, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (res.ok) {
+            showAlert('محصول حذف شد', 'success');
+            location.reload();
+          } else {
+            showAlert('خطا در حذف', 'danger');
+          }
+        };
+      });
+    }
+
+    // Add Product Modal
+    const addModal = new bootstrap.Modal('#addProductModal');
+    document.getElementById('openAddProduct').onclick = () => addModal.show();
+    document.getElementById('addProductForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('p_name').value.trim(),
+        price: +document.getElementById('p_price').value,
+        stock: +document.getElementById('p_stock').value,
+        category: document.getElementById('p_category').value.trim() || null,
+        image_url: document.getElementById('p_image').value.trim() || null
+      };
+      const res = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        addModal.hide();
+        showAlert('محصول اضافه شد', 'success');
+        location.reload();
+      } else {
+        const j = await res.json();
+        showAlert(j.message || 'خطا', 'danger');
+      }
+    };
+
+    // Navigation
+    document.getElementById('navHome').onclick = () => location.reload();
+    document.getElementById('shopNowBtn').onclick = () => window.scrollTo(0, document.getElementById('customerView').offsetTop);
+    document.getElementById('refreshProducts').onclick = () => location.reload();
+
+    // Alert Function
+    function showAlert(message, type) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show fixed-top mx-auto mt-3`;
+      alertDiv.style.maxWidth = '400px';
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      `;
+      document.body.appendChild(alertDiv);
+      setTimeout(() => alertDiv.remove(), 3000);
+    }
   </script>
 </body>
 </html>

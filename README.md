@@ -48,3 +48,31 @@ APIها:
 Node.js, Express, MariaDB, bcrypt, JWT, HTML/CSS/JS
 
 
+# Simple-Online-Shop — Frontend
+
+## صفحات
+- /register.html — فرم ثبت‌نام (فیلدها: name, email, password, address, phone)
+- /login.html — فرم ورود (email, password)
+- /index.html — داشبورد نقش‌محور (Admin template با sidebar، کارت‌ها و جدول محصولات)
+
+## نحوه کار
+- پس از ورود، توکن JWT در localStorage ذخیره می‌شود: `token`
+- نقش کاربر در localStorage: `role` (مثلاً "admin" یا "customer")
+- درخواست‌های محافظت‌شده با هدر `Authorization: Bearer <token>` ارسال می‌شوند
+- APIهای مورد استفاده:
+  - POST `/api/signup` — ثبت‌نام
+  - POST `/api/login` — ورود (برمی‌گرداند: token, user)
+  - POST `/api/logout` — خروج (نیاز به header دارد)
+  - GET `/api/dashboard` — اطلاعات داشبورد بر اساس نقش
+  - POST `/api/admin/products` — (admin) افزودن محصول
+  - DELETE `/api/admin/products/:id` — (admin) حذف محصول
+
+## تست دستی
+1. اجرا: `node server.js` (یا دستور موردنظر شما)
+2. باز کردن `http://localhost:3000/register.html` — ثبت‌نام یک کاربر (role پیش‌فرض customer)
+3. ثبت‌نام یک کاربر با role=admin (برای این کار یا مستقیم در DB role را admin بگذار یا در درخواست signup فایل بک‌اند را موقتا طوری تنظیم کن که role قبول کند)
+4. وارد شدن با `login.html` — سپس هدایت به `index.html`
+5. برای ادمین: کارت آمار و جدول محصولات مشاهده می‌شود؛ افزودن و حذف محصول را تست کن.
+6. برای کاربر معمولی: سبد و سفارشات نمایش داده می‌شود (در این پیاده‌سازی ساده سبد خالی است).
+
+

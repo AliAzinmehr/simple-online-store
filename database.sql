@@ -1,11 +1,11 @@
--- ساخت دیتابیس (در MariaDB / MySQL)
+-- database.sql
 CREATE DATABASE IF NOT EXISTS shop_db;
 USE shop_db;
 
 -- 🧍‍♂️ جدول کاربران (Users)
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  full_name VARCHAR(100) NOT NULL,
+  name VARCHAR(100) NOT NULL,
   email VARCHAR(150) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   role ENUM('customer','admin') DEFAULT 'customer',
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS orders (
   total_price DECIMAL(10,2) NOT NULL,
   status ENUM('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
   order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- 🧾 جدول جزئیات سفارش (Order Items)
@@ -43,6 +43,6 @@ CREATE TABLE IF NOT EXISTS order_items (
   product_id INT NOT NULL,
   quantity INT NOT NULL,
   unit_price DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY (order_id) REFERENCES orders(id),
-  FOREIGN KEY (product_id) REFERENCES products(id)
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
