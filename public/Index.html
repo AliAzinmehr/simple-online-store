@@ -470,39 +470,43 @@ function showCustomerOrders(orders) {
     }
 
     function renderCustomerProducts(products) {
-      productsContainer.innerHTML = '';
-      if (!products.length) {
-        productsContainer.innerHTML = '<div class="col-12 text-center"><p class="text-muted">محصولی یافت نشد.</p></div>';
-        return;
-      }
-      products.forEach(p => {
-        const inCart = cart.find(i => i.id === p.id);
-        const col = document.createElement('div');
-        col.className = 'col';
-        col.innerHTML = `
-          <div class="card product-card h-100">
-            <img src="${p.image_url || 'https://via.placeholder.com/300'}" class="product-img" alt="${p.name}">
-            <div class="card-body d-flex flex-column">
-              <h6 class="card-title">${p.name}</h6>
-              <p class="text-muted small">${p.category || 'بدون دسته'}</p>
-              <div class="mt-auto">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <strong class="text-primary">${Number(p.price).toLocaleString()} تومان</strong>
-                  <span class="badge ${p.stock > 0 ? 'bg-success' : 'bg-danger'}">${p.stock > 0 ? p.stock + ' موجود' : 'ناموجود'}</span>
-                </div>
-                <button class="btn btn-primary w-100 btn-add-cart" data-id="${p.id}" ${p.stock === 0 ? 'disabled' : ''}>
-                  ${inCart ? 'در سبد' : 'افزودن به سبد'}
-                </button>
-              </div>
+  const container = document.getElementById('productsContainer');
+  container.innerHTML = '';
+
+  products.forEach(p => {
+    const col = document.createElement('div');
+    col.className = 'col';
+
+    col.innerHTML = `
+      <div class="card product-card h-100">
+        <img src="${p.image_url || 'https://via.placeholder.com/300'}" class="product-img" alt="${p.name}">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${p.name}</h5>
+          <p class="text-muted small">${p.category || 'بدون دسته'}</p>
+          <div class="mt-auto">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <strong class="text-primary fs-5">${Number(p.price).toLocaleString()} تومان</strong>
+              <span class="badge ${p.stock>0 ? 'bg-success' : 'bg-danger'} fs-6">
+                ${p.stock > 0 ? p.stock + ' موجود' : 'ناموجود'}
+              </span>
             </div>
-          </div>`;
-        productsContainer.appendChild(col);
-      });
+            <button class="btn btn-primary w-100">مشاهده جزئیات</button>
+          </div>
+        </div>
+      </div>`;
+
+    // این دو خط مهم هستن — جلسه ۶
+    col.style.cursor = 'pointer';                    // موس دست میشه
+    col.onclick = () => showProductDetail(p.id);     // کلیک → جزئیات
+
+    container.appendChild(col);
+  });
+}
 
       document.querySelectorAll('.btn-add-cart').forEach(btn => {
         btn.onclick = () => addToCart(btn.dataset.id);
       });
-    }
+    
 
     // Cart Functions
     function addToCart(productId) {
@@ -704,6 +708,131 @@ function showCustomerOrders(orders) {
       document.body.appendChild(alertDiv);
       setTimeout(() => alertDiv.remove(), 3000);
     }
+
+    
+
   </script>
+
+  <!-- Modal: افزودن محصول (به‌روزشده با آپلود عکس) -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="addProductForm" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title">افزودن محصول جدید</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">نام محصول *</label>
+            <input type="text" id="p_name" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">توضیحات</label>
+            <textarea id="p_description" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">قیمت (تومان) *</label>
+            <input type="number" id="p_price" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">موجودی</label>
+            <input type="number" id="p_stock" class="form-control" value="1" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">دسته‌بندی</label>
+            <input type="text" id="p_category" class="form-control" placeholder="مثلاً: لپ‌تاپ، موبایل" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">عکس محصول</label>
+            <input type="file" id="p_image" class="form-control" accept="image/*" />
+            <div class="form-text">حداکثر ۵ مگابایت - فرمت: JPG, PNG, WebP</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+          <button type="submit" class="btn btn-primary">افزودن محصول</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <script>
+    // ارسال فرم با FormData (برای آپلود فایل)
+document.getElementById('addProductForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('name', document.getElementById('p_name').value.trim());
+  formData.append('description', document.getElementById('p_description').value.trim());
+  formData.append('price', document.getElementById('p_price').value);
+  formData.append('stock', document.getElementById('p_stock').value || 1);
+  formData.append('category', document.getElementById('p_category').value.trim());
+  const fileInput = document.getElementById('p_image');
+  if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
+
+  const res = await fetch('/api/admin/products', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token },
+    body: formData
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    addModal.hide();
+    showAlert('محصول با موفقیت اضافه شد!', 'success');
+    loadAdminDashboard();
+  } else {
+    showAlert(data.message || 'خطا در افزودن محصول', 'danger');
+  }
+};
+  </script>
+
+  <!-- صفحه جزئیات محصول (مشتری) -->
+<div id="productDetailView" class="d-none container py-5">
+  <div class="row">
+    <div class="col-md-6">
+      <img id="detailImage" class="img-fluid rounded shadow" style="max-height: 500px; object-fit: cover;" />
+    </div>
+    <div class="col-md-6">
+      <h2 id="detailName"></h2>
+      <p class="text-muted" id="detailCategory"></p>
+      <p id="detailDescription" class="lead"></p>
+      <div class="d-flex align-items-center mb-3">
+        <h3 class="text-primary me-3" id="detailPrice"></h3>
+        <span class="badge bg-success fs-6" id="detailStock"></span>
+      </div>
+      <button class="btn btn-primary btn-lg" id="addToCartBtn">
+        افزودن به سبد خرید
+      </button>
+      <button class="btn btn-outline-secondary btn-lg me-2" onclick="history.back()">بازگشت</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // نمایش جزئیات محصول
+async function showProductDetail(id) {
+  customerView.classList.add('d-none');
+  document.getElementById('productDetailView').classList.remove('d-none');
+  const res = await api(`/api/products/${id}`);
+  if (!res.ok) return showAlert('محصول یافت نشد', 'danger');
+
+  const p = res.data;
+  document.getElementById('detailImage').src = p.image_url || 'https://via.placeholder.com/500';
+  document.getElementById('detailName').innerText = p.name;
+  document.getElementById('detailCategory').innerText = p.category || 'بدون دسته';
+  document.getElementById('detailDescription').innerText = p.description || 'توضیحاتی موجود نیست.';
+  document.getElementById('detailPrice').innerText = Number(p.price).toLocaleString() + ' تومان';
+  document.getElementById('detailStock').innerText = p.stock > 0 ? `${p.stock} عدد موجود` : 'ناموجود';
+  document.getElementById('detailStock').className = p.stock > 0 ? 'badge bg-success' : 'badge bg-danger';
+
+  document.getElementById('addToCartBtn').onclick = () => {
+    addToCart(p.id, p.name, p.price, p.image_url || 'https://via.placeholder.com/300');
+    showAlert('به سبد اضافه شد!', 'success');
+  };
+}
+</script>
+
 </body>
 </html>
