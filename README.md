@@ -52,10 +52,14 @@ npm start
 # یا
 node server.js
 آدرس‌های تست
-صفحه اصلی: http://localhost:3000
-ثبت‌نام: http://localhost:3000/register.html
-ورود: http://localhost:3000/login.html
-تست API: http://localhost:3000/api/test
+صفحه اصلی: 
+http://localhost:3000
+ثبت‌نام: 
+http://localhost:3000/register.html
+ورود: 
+http://localhost:3000/login.html
+تست
+API: http://localhost:3000/api/test
 📚 جلسات توسعه
 جلسه 1: طراحی و ERD
 هدف: طراحی هدف پروژه و مدل‌سازی پایگاه داده
