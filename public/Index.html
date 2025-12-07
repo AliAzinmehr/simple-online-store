@@ -1,3 +1,4 @@
+<!--index.html-->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -123,6 +124,9 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       transition: all 0.3s;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .product-card:hover {
@@ -131,9 +135,11 @@
     }
 
     .product-img {
-      height: 200px;
+      width: 100%;
+      height: 250px;
       object-fit: cover;
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      display: block;
     }
 
     .stat-card {
@@ -212,9 +218,298 @@
       box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
     }
 
+    #productDetailView {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      min-height: 100vh;
+      padding: 3rem 0;
+      margin: 0 !important;
+      width: 100%;
+    }
+
+    .product-detail-card {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      padding: 2.5rem;
+    }
+
+    .product-detail-img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-detail-info h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .product-detail-category {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .product-detail-description {
+      color: #555;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(108, 92, 231, 0.05);
+      border-right: 4px solid var(--primary);
+      border-radius: 0.75rem;
+    }
+
+    .product-detail-price-section {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(0, 184, 148, 0.08);
+      border-radius: 1rem;
+      border-left: 4px solid var(--success);
+    }
+
+    .product-detail-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .product-detail-stock {
+      font-size: 1.1rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .product-detail-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .product-detail-buttons .btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 1rem;
+    }
+
     .offcanvas {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
+    }
+
+    #cartView {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+
+    .cart-page-container {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+    }
+
+    .cart-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid rgba(108, 92, 231, 0.2);
+      padding-bottom: 1.5rem;
+    }
+
+    .cart-page-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .cart-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .cart-items-table thead {
+      background: rgba(108, 92, 231, 0.1);
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .cart-items-table th {
+      padding: 1rem;
+      text-align: right;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .cart-items-table td {
+      padding: 1.5rem 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      vertical-align: middle;
+    }
+
+    .cart-product-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cart-product-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-product-name {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .cart-product-category {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .cart-qty-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      padding: 0.25rem;
+    }
+
+    .cart-qty-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0.25rem;
+      transition: all 0.2s;
+    }
+
+    .cart-qty-btn:hover {
+      background: rgba(108, 92, 231, 0.1);
+    }
+
+    .cart-qty-input {
+      width: 50px;
+      text-align: center;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .cart-qty-input:focus {
+      outline: none;
+    }
+
+    .cart-price {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.1rem;
+      text-align: left;
+    }
+
+    .cart-btn-remove {
+      background: rgba(214, 48, 49, 0.1);
+      color: var(--danger);
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cart-btn-remove:hover {
+      background: rgba(214, 48, 49, 0.2);
+      transform: scale(1.05);
+    }
+
+    .cart-summary-section {
+      background: rgba(108, 92, 231, 0.05);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(108, 92, 231, 0.2);
+      max-width: 400px;
+      margin-left: auto;
+    }
+
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .cart-summary-row.total {
+      border-top: 2px solid var(--primary);
+      padding-top: 1rem;
+      margin-top: 1rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .cart-empty-message {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .cart-empty-icon {
+      font-size: 4rem;
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+
+    .cart-empty-text {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .cart-actions .btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 1rem;
+      font-weight: 600;
+      border-radius: 1rem;
+      font-size: 1rem;
     }
 
     @keyframes fadeInUp {
@@ -242,6 +537,7 @@
           <li class="nav-item"><a class="nav-link active" href="#" id="navHome">خانه</a></li>
           <li class="nav-item"><a class="nav-link" href="#" id="navProductsLink">محصولات</a></li>
           <li class="nav-item d-none" id="navOrdersNav"><a class="nav-link" href="#" id="navOrders">سفارش‌ها</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="navCart"><i class="bi bi-bag-fill me-2"></i>سبد خرید</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <span id="welcomeUser"></span>
@@ -334,45 +630,7 @@
     </div>
   </div>
 
-  <!-- Add Product Modal -->
-  <div class="modal fade" id="addProductModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <form id="addProductForm">
-          <div class="modal-header">
-            <h5 class="modal-title">افزودن محصول جدید</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">نام محصول</label>
-              <input id="p_name" class="form-control" required />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">قیمت (تومان)</label>
-              <input id="p_price" type="number" class="form-control" required />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">موجودی</label>
-              <input id="p_stock" type="number" class="form-control" required />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">دسته‌بندی</label>
-              <input id="p_category" class="form-control" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">لینک تصویر</label>
-              <input id="p_image" class="form-control" placeholder="https://example.com/image.jpg" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
-            <button type="submit" class="btn btn-primary">افزودن محصول</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -509,21 +767,33 @@ function showCustomerOrders(orders) {
     
 
     // Cart Functions
-    function addToCart(productId) {
-      const product = productsContainer.querySelector(`.btn-add-cart[data-id="${productId}"]`).closest('.col');
-      const name = product.querySelector('.card-title').innerText;
-      const price = parseInt(product.querySelector('.text-primary').innerText.replace(/[^0-9]/g, ''));
-      const img = product.querySelector('img').src;
-
-      const existing = cart.find(i => i.id == productId);
-      if (existing) {
-        existing.qty += 1;
+    function addToCart(productId, name, price, img) {
+      // If called with full product data from detail page
+      if (name && price && img) {
+        const existing = cart.find(i => i.id == productId);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({ id: productId, name, price, img, qty: 1 });
+        }
       } else {
-        cart.push({ id: productId, name, price, img, qty: 1 });
+        // Fallback: Get from DOM if available
+        const product = productsContainer.querySelector(`.btn-add-cart[data-id="${productId}"]`);
+        if (!product) return showAlert('محصول یافت نشد', 'danger');
+        const productCard = product.closest('.col');
+        const productName = productCard.querySelector('.card-title').innerText;
+        const productPrice = parseInt(productCard.querySelector('.text-primary').innerText.replace(/[^0-9]/g, ''));
+        const productImg = productCard.querySelector('img').src;
+        
+        const existing = cart.find(i => i.id == productId);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({ id: productId, name: productName, price: productPrice, img: productImg, qty: 1 });
+        }
       }
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCart();
-      showAlert('به سبد اضافه شد!', 'success');
     }
 
     function updateCart() {
@@ -664,35 +934,15 @@ function showCustomerOrders(orders) {
       });
     }
 
-    // Add Product Modal
-    const addModal = new bootstrap.Modal('#addProductModal');
-    document.getElementById('openAddProduct').onclick = () => addModal.show();
-    document.getElementById('addProductForm').onsubmit = async (e) => {
-      e.preventDefault();
-      const payload = {
-        name: document.getElementById('p_name').value.trim(),
-        price: +document.getElementById('p_price').value,
-        stock: +document.getElementById('p_stock').value,
-        category: document.getElementById('p_category').value.trim() || null,
-        image_url: document.getElementById('p_image').value.trim() || null
-      };
-      const res = await fetch('/api/admin/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
-        addModal.hide();
-        showAlert('محصول اضافه شد', 'success');
-        location.reload();
-      } else {
-        const j = await res.json();
-        showAlert(j.message || 'خطا', 'danger');
-      }
-    };
-
     // Navigation
     document.getElementById('navHome').onclick = () => location.reload();
+    document.getElementById('navProductsLink').onclick = (e) => {
+      e.preventDefault();
+      document.getElementById('cartView').classList.add('d-none');
+      document.getElementById('productDetailView').classList.add('d-none');
+      document.getElementById('customerView').classList.remove('d-none');
+      loadCustomerProducts();
+    };
     document.getElementById('shopNowBtn').onclick = () => window.scrollTo(0, document.getElementById('customerView').offsetTop);
     document.getElementById('refreshProducts').onclick = () => location.reload();
 
@@ -759,53 +1009,157 @@ function showCustomerOrders(orders) {
 </div>
 
   <script>
-    // ارسال فرم با FormData (برای آپلود فایل)
+   // Initialize Modal and Button Handler
+const addModal = new bootstrap.Modal('#addProductModal');
+document.getElementById('openAddProduct').onclick = () => addModal.show();
+
 document.getElementById('addProductForm').onsubmit = async (e) => {
   e.preventDefault();
+  
+  // Validate required fields
+  const name = document.getElementById('p_name').value.trim();
+  const priceInput = document.getElementById('p_price').value;
+  
+  if (!name || !priceInput) {
+    showAlert('نام و قیمت الزامی است!', 'danger');
+    return;
+  }
+  
+  const price = parseFloat(priceInput);
+  if (isNaN(price) || price <= 0) {
+    showAlert('قیمت باید یک عدد مثبت باشد!', 'danger');
+    return;
+  }
+  
   const formData = new FormData();
-  formData.append('name', document.getElementById('p_name').value.trim());
+  formData.append('name', name);
   formData.append('description', document.getElementById('p_description').value.trim());
-  formData.append('price', document.getElementById('p_price').value);
-  formData.append('stock', document.getElementById('p_stock').value || 1);
+  formData.append('price', price);
+  const stockValue = document.getElementById('p_stock').value;
+  formData.append('stock', stockValue ? parseInt(stockValue) : 1);
   formData.append('category', document.getElementById('p_category').value.trim());
   const fileInput = document.getElementById('p_image');
   if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
 
-  const res = await fetch('/api/admin/products', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token },
-    body: formData
-  });
+  try {
+    const res = await fetch('/api/admin/products', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: formData
+    });
 
-  const data = await res.json();
-  if (res.ok) {
-    addModal.hide();
-    showAlert('محصول با موفقیت اضافه شد!', 'success');
-    loadAdminDashboard();
-  } else {
-    showAlert(data.message || 'خطا در افزودن محصول', 'danger');
+    const data = await res.json();
+    console.log('Response:', res.status, data);
+    
+    if (res.ok) {
+      addModal.hide();
+      document.getElementById('addProductForm').reset();
+      showAlert('محصول با موفقیت اضافه شد!', 'success');
+      loadAdminDashboard();
+    } else {
+      const errorMsg = data.message || data.error || 'خطا در افزودن';
+      console.error('Error details:', errorMsg);
+      showAlert(errorMsg, 'danger');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('خطا در ارسال: ' + error.message, 'danger');
   }
 };
+
   </script>
 
   <!-- صفحه جزئیات محصول (مشتری) -->
-<div id="productDetailView" class="d-none container py-5">
-  <div class="row">
-    <div class="col-md-6">
-      <img id="detailImage" class="img-fluid rounded shadow" style="max-height: 500px; object-fit: cover;" />
-    </div>
-    <div class="col-md-6">
-      <h2 id="detailName"></h2>
-      <p class="text-muted" id="detailCategory"></p>
-      <p id="detailDescription" class="lead"></p>
-      <div class="d-flex align-items-center mb-3">
-        <h3 class="text-primary me-3" id="detailPrice"></h3>
-        <span class="badge bg-success fs-6" id="detailStock"></span>
+<div id="productDetailView" class="d-none">
+  <div class="container py-5">
+    <div class="product-detail-card">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <img id="detailImage" class="product-detail-img" alt="محصول" />
+        </div>
+        <div class="col-lg-6 product-detail-info">
+          <h2 id="detailName"></h2>
+          <p class="product-detail-category" id="detailCategory"></p>
+          <p id="detailDescription" class="product-detail-description"></p>
+          <div class="product-detail-price-section">
+            <div>
+              <div class="small text-muted mb-2">قیمت</div>
+              <div class="product-detail-price" id="detailPrice"></div>
+            </div>
+            <div>
+              <span class="product-detail-stock" id="detailStock"></span>
+            </div>
+          </div>
+          <div class="product-detail-buttons">
+            <button class="btn btn-primary" id="addToCartBtn">
+              <i class="bi bi-bag-plus"></i> افزودن به سبد خرید
+            </button>
+            <button class="btn btn-outline-secondary" onclick="document.getElementById('productDetailView').classList.add('d-none'); document.getElementById('customerView').classList.remove('d-none');">
+              <i class="bi bi-arrow-right"></i> بازگشت
+            </button>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary btn-lg" id="addToCartBtn">
-        افزودن به سبد خرید
-      </button>
-      <button class="btn btn-outline-secondary btn-lg me-2" onclick="history.back()">بازگشت</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Page View -->
+<div id="cartView" class="d-none">
+  <div class="container py-4">
+    <div class="cart-page-container">
+      <div class="cart-page-header">
+        <h2>🛒 سبد خرید</h2>
+        <button class="btn btn-outline-secondary" onclick="document.getElementById('cartView').classList.add('d-none'); document.getElementById('customerView').classList.remove('d-none');">
+          <i class="bi bi-arrow-right"></i> بازگشت
+        </button>
+      </div>
+
+      <div id="cartEmptyState" class="cart-empty-message">
+        <div class="cart-empty-icon">📭</div>
+        <div class="cart-empty-text">سبد خرید شما خالی است</div>
+        <button class="btn btn-primary" onclick="document.getElementById('cartView').classList.add('d-none'); document.getElementById('customerView').classList.remove('d-none');">
+          برو به خرید
+        </button>
+      </div>
+
+      <div id="cartFullState" class="d-none">
+        <div class="table-responsive mb-4">
+          <table class="cart-items-table">
+            <thead>
+              <tr>
+                <th>محصول</th>
+                <th>قیمت واحد</th>
+                <th>تعداد</th>
+                <th>مجموع</th>
+                <th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="cartTableBody">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="cart-summary-section">
+          <div class="cart-summary-row">
+            <span>جمع کل محصولات:</span>
+            <span id="cartSubtotal">۰ تومان</span>
+          </div>
+          <div class="cart-summary-row total">
+            <span>قابل پرداخت:</span>
+            <span id="cartFinalTotal">۰ تومان</span>
+          </div>
+        </div>
+
+        <div class="cart-actions">
+          <button class="btn btn-outline-secondary" onclick="document.getElementById('cartView').classList.add('d-none'); document.getElementById('customerView').classList.remove('d-none');">
+            <i class="bi bi-arrow-right"></i> ادامه خرید
+          </button>
+          <button class="btn btn-success" id="cartCheckoutBtn">
+            <i class="bi bi-check-circle"></i> تأیید و ثبت سفارش
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -824,14 +1178,148 @@ async function showProductDetail(id) {
   document.getElementById('detailCategory').innerText = p.category || 'بدون دسته';
   document.getElementById('detailDescription').innerText = p.description || 'توضیحاتی موجود نیست.';
   document.getElementById('detailPrice').innerText = Number(p.price).toLocaleString() + ' تومان';
-  document.getElementById('detailStock').innerText = p.stock > 0 ? `${p.stock} عدد موجود` : 'ناموجود';
   document.getElementById('detailStock').className = p.stock > 0 ? 'badge bg-success' : 'badge bg-danger';
+  document.getElementById('detailStock').innerText = p.stock > 0 ? `${p.stock} عدد موجود` : 'ناموجود';
 
   document.getElementById('addToCartBtn').onclick = () => {
     addToCart(p.id, p.name, p.price, p.image_url || 'https://via.placeholder.com/300');
     showAlert('به سبد اضافه شد!', 'success');
+    updateCart();
   };
 }
+
+// Cart Page Functions
+function showCartPage() {
+  customerView.classList.add('d-none');
+  document.getElementById('productDetailView').classList.add('d-none');
+  document.getElementById('cartView').classList.remove('d-none');
+  renderCartPage();
+}
+
+function renderCartPage() {
+  const cartEmptyState = document.getElementById('cartEmptyState');
+  const cartFullState = document.getElementById('cartFullState');
+  
+  if (cart.length === 0) {
+    cartEmptyState.classList.remove('d-none');
+    cartFullState.classList.add('d-none');
+    return;
+  }
+  
+  cartEmptyState.classList.add('d-none');
+  cartFullState.classList.remove('d-none');
+  
+  const tableBody = document.getElementById('cartTableBody');
+  tableBody.innerHTML = '';
+  
+  let subtotal = 0;
+  
+  cart.forEach((item, idx) => {
+    const itemTotal = item.price * item.qty;
+    subtotal += itemTotal;
+    
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>
+        <div class="cart-product-info">
+          <img src="${item.img}" class="cart-product-img" alt="${item.name}">
+          <div>
+            <div class="cart-product-name">${item.name}</div>
+            <div class="cart-product-category">ID: ${item.id}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="cart-price">${Number(item.price).toLocaleString()} تومان</div>
+      </td>
+      <td>
+        <div class="cart-qty-control">
+          <button class="cart-qty-btn" onclick="decreaseQty(${idx})">−</button>
+          <input type="number" class="cart-qty-input" value="${item.qty}" min="1" onchange="updateQty(${idx}, this.value)">
+          <button class="cart-qty-btn" onclick="increaseQty(${idx})">+</button>
+        </div>
+      </td>
+      <td>
+        <div class="cart-price">${Number(itemTotal).toLocaleString()} تومان</div>
+      </td>
+      <td>
+        <button class="cart-btn-remove" onclick="removeFromCart(${idx})">
+          <i class="bi bi-trash"></i> حذف
+        </button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+  
+  document.getElementById('cartSubtotal').innerText = Number(subtotal).toLocaleString() + ' تومان';
+  document.getElementById('cartFinalTotal').innerText = Number(subtotal).toLocaleString() + ' تومان';
+}
+
+function increaseQty(idx) {
+  if (cart[idx]) {
+    cart[idx].qty = parseInt(cart[idx].qty) + 1;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCartPage();
+    updateCart();
+  }
+}
+
+function decreaseQty(idx) {
+  if (cart[idx] && cart[idx].qty > 1) {
+    cart[idx].qty = parseInt(cart[idx].qty) - 1;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCartPage();
+    updateCart();
+  }
+}
+
+function updateQty(idx, newQty) {
+  const qty = parseInt(newQty);
+  if (cart[idx] && qty > 0) {
+    cart[idx].qty = qty;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCartPage();
+    updateCart();
+  }
+}
+
+function removeFromCart(idx) {
+  if (confirm('آیا مطمئن هستید؟')) {
+    cart.splice(idx, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCartPage();
+    updateCart();
+    showAlert('محصول حذف شد', 'info');
+  }
+}
+
+// Cart Page Checkout
+document.getElementById('cartCheckoutBtn').onclick = async () => {
+  if (cart.length === 0) return;
+  const res = await api('/api/orders', {
+    method: 'POST',
+    body: JSON.stringify({ items: cart })
+  });
+  if (res.ok) {
+    cart = [];
+    localStorage.removeItem('cart');
+    showAlert('سفارش با موفقیت ثبت شد!', 'success');
+    updateCart();
+    setTimeout(() => {
+      document.getElementById('cartView').classList.add('d-none');
+      document.getElementById('customerView').classList.remove('d-none');
+      loadCustomerProducts();
+    }, 1500);
+  } else {
+    showAlert('خطا در ثبت سفارش', 'danger');
+  }
+};
+
+// Add Cart Navigation
+document.getElementById('navCart').onclick = (e) => {
+  e.preventDefault();
+  showCartPage();
+};
 </script>
 
 </body>

@@ -145,6 +145,10 @@ app.get('/api/dashboard', verifyToken, (req, res) => {
 
 // افزودن محصول با آپلود عکس (ادمین)
 app.post('/api/admin/products', verifyToken, requireRole('admin'), upload.single('image'), (req, res) => {
+  console.log('Adding product - User:', req.user);
+  console.log('Body:', req.body);
+  console.log('File:', req.file);
+  
   const { name, description, price, stock, category } = req.body;
   const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
@@ -153,10 +157,27 @@ app.post('/api/admin/products', verifyToken, requireRole('admin'), upload.single
   db.query('INSERT INTO products (name,description,price,stock,image_url,category) VALUES (?,?,?,?,?,?)',
     [name, description || null, price, stock || 0, image_url, category || null],
     (err, result) => {
-      if (err) return res.status(500).json({ error: err.message });
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: err.message });
+      }
+      console.log('Product added successfully with ID:', result.insertId);
       res.status(201).json({ message: 'محصول اضافه شد', productId: result.insertId });
     }
   );
+});
+
+// Multer error handler
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    console.error('Multer error:', err);
+    return res.status(400).json({ message: 'خطا در آپلود فایل: ' + err.message });
+  }
+  if (err.message) {
+    console.error('Upload error:', err);
+    return res.status(400).json({ message: err.message });
+  }
+  next();
 });
 
 // حذف محصول
