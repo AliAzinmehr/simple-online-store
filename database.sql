@@ -23,8 +23,12 @@ CREATE TABLE IF NOT EXISTS products (
   stock INT DEFAULT 0,
   image_url VARCHAR(255),
   category VARCHAR(100),
+  specifications JSON,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- افزودن ستون specifications اگر وجود نداشته باشد
+ALTER TABLE products ADD COLUMN IF NOT EXISTS specifications JSON;
 
 -- 📦 جدول سفارش‌ها (Orders)
 CREATE TABLE IF NOT EXISTS orders (
@@ -33,6 +37,8 @@ CREATE TABLE IF NOT EXISTS orders (
   total_price DECIMAL(10,2) NOT NULL,
   status ENUM('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
   order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  shipping_address VARCHAR(500),
+  payment_method ENUM('cash','card','online') DEFAULT 'cash',
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

@@ -14,21 +14,23 @@
 
   <style>
     :root {
-      --primary: #6c5ce7;
-      --primary-dark: #5f3dc4;
-      --success: #00b894;
-      --danger: #d63031;
-      --light: #f8f9fa;
-      --dark: #2d3436;
-      --gray: #b2bec3;
+      --primary: #2c3e50;
+      --primary-light: #34495e;
+      --accent: #3498db;
+      --accent-light: #5dade2;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --light: #ecf0f1;
+      --lighter: #f8f9fa;
+      --dark: #2c3e50;
+      --gray: #7f8c8d;
+      --border: #bdc3c7;
     }
 
     * { font-family: 'Vazirmatn', 'Yekan Bakh', Tahoma, sans-serif; }
 
     body {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ecf0f1 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -37,25 +39,18 @@
       margin: 0;
     }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .register-container {
       width: 100%;
       max-width: 480px;
     }
 
     .register-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      animation: fadeInUp 0.7s ease-out;
+      border: 1px solid var(--light);
+      animation: fadeInUp 0.6s ease-out;
     }
 
     @keyframes fadeInUp {
@@ -64,7 +59,7 @@
     }
 
     .card-header {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       color: white;
       padding: 2rem 1.5rem;
       text-align: center;
@@ -73,112 +68,136 @@
 
     .card-header h3 {
       font-weight: 800;
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       margin: 0;
-      letter-spacing: 1px;
+      letter-spacing: -0.5px;
     }
 
     .card-header p {
-      margin: 0.5rem 0 0;
-      opacity: 0.9;
+      margin: 0.75rem 0 0;
+      opacity: 0.95;
       font-size: 0.95rem;
+      font-weight: 500;
     }
 
     .card-body {
       padding: 2rem;
+      max-height: 70vh;
+      overflow-y: auto;
     }
 
     .form-control, .form-select {
-      border-radius: 1rem;
-      border: 1.5px solid #ddd;
-      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.85rem 1rem;
       font-size: 0.95rem;
       transition: all 0.3s;
+      background-color: var(--lighter);
     }
 
-    .form-control:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
-      transform: scale(1.02);
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      background-color: white;
     }
 
     .input-group-text {
-      border-radius: 1rem 0 0 1rem;
-      background: #f1f2f6;
-      border: 1.5px solid #ddd;
+      border-radius: 0.5rem 0 0 0.5rem;
+      background: var(--lighter);
+      border: 1px solid var(--border);
       border-right: none;
+      color: var(--accent);
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
     }
 
     .btn-register {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: var(--accent);
       border: none;
-      border-radius: 1rem;
-      padding: 0.85rem;
+      border-radius: 0.5rem;
+      padding: 0.95rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
+      color: white;
     }
 
     .btn-register:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
     }
 
-    .btn-register::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-
-    .btn-register:active::after {
-      width: 300px;
-      height: 300px;
+    .btn-register:active {
+      transform: translateY(0);
     }
 
     .form-check-label {
       font-size: 0.9rem;
-      color: #555;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .form-check-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
     }
 
     .login-link {
       text-align: center;
       margin-top: 1.5rem;
       font-size: 0.95rem;
+      color: var(--gray);
     }
 
     .login-link a {
-      color: var(--primary);
-      font-weight: 600;
+      color: var(--accent);
+      font-weight: 700;
       text-decoration: none;
+      transition: all 0.3s;
     }
 
     .login-link a:hover {
-      text-decoration: underline;
+      color: var(--primary);
     }
 
     .alert {
-      border-radius: 1rem;
+      border-radius: 0.5rem;
       font-size: 0.9rem;
-      padding: 0.75rem 1rem;
+      padding: 1rem 1.25rem;
+      border: none;
     }
 
-    /* Responsive */
+    .alert-danger {
+      background-color: #fdeaea;
+      color: #c53030;
+    }
+
+    .alert-success {
+      background-color: #e6fffa;
+      color: #22543d;
+    }
+
+    .valid-feedback, .invalid-feedback {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+
     @media (max-width: 480px) {
       .register-container { padding: 10px; }
-      .card-header h3 { font-size: 1.5rem; }
+      .card-header h3 { font-size: 1.4rem; }
+      .card-body { padding: 1.5rem; }
     }
-
-    /* Validation Icons */
-    .valid-feedback i, .invalid-feedback i { font-size: 0.8rem; }
   </style>
 </head>
 <body>

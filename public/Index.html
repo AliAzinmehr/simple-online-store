@@ -16,377 +16,375 @@
 
   <style>
     :root {
-      --primary: #6c5ce7;
-      --primary-dark: #5f3dc4;
-      --success: #00b894;
-      --danger: #d63031;
-      --light: #f8f9fa;
-      --dark: #2d3436;
-      --gray: #b2bec3;
+      --primary: #2c3e50;
+      --primary-light: #34495e;
+      --accent: #3498db;
+      --accent-light: #5dade2;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --light: #ecf0f1;
+      --lighter: #f8f9fa;
+      --dark: #2c3e50;
+      --gray: #95a5a6;
+      --border: #bdc3c7;
     }
 
     * { font-family: 'Vazirmatn', 'Yekan Bakh', Tahoma, sans-serif; }
 
     body {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      min-height: 100vh;
+      background: #f8f9fa;
       padding: 0;
       margin: 0;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      color: var(--dark);
     }
 
     .navbar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background: white;
+      border-bottom: 2px solid var(--light);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 1rem 0;
     }
 
     .navbar-brand {
       font-weight: 800;
       font-size: 1.5rem;
       color: var(--primary);
+      letter-spacing: -0.5px;
     }
 
     .nav-link {
       font-weight: 500;
       color: var(--dark);
       transition: all 0.3s;
+      margin: 0 0.5rem;
     }
 
     .nav-link:hover {
-      color: var(--primary);
+      color: var(--accent);
     }
 
     .sidebar {
       min-width: 260px;
       max-width: 260px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-left: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      background: white;
+      border-left: 1px solid var(--light);
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
       height: 100vh;
       position: sticky;
       top: 0;
-      animation: slideInRight 0.5s ease-out;
-    }
-
-    @keyframes slideInRight {
-      from { transform: translateX(100%); }
-      to { transform: translateX(0); }
+      padding-top: 2rem;
     }
 
     .sidebar .nav-link {
-      border-radius: 1rem;
+      border-radius: 0.5rem;
       margin: 8px 12px;
-      padding: 10px 15px;
+      padding: 12px 15px;
       color: var(--dark);
       font-size: 0.95rem;
+      transition: all 0.3s;
     }
 
     .sidebar .nav-link.active {
-      background: var(--primary);
+      background: var(--accent);
       color: white;
     }
 
     .sidebar .nav-link:hover:not(.active) {
-      background: rgba(108, 92, 231, 0.1);
-      color: var(--primary);
+      background: var(--light);
+      color: var(--accent);
     }
 
     .content {
       flex: 1;
       padding: 2rem;
+      background: #f8f9fa;
     }
 
     .hero {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 3rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      animation: fadeInUp 0.7s ease-out;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 1rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     .product-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s;
+      border: 1px solid var(--light);
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      background: white;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
     }
 
     .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      transform: translateY(-4px);
+      border-color: var(--accent);
     }
 
     .product-img {
       width: 100%;
       height: 250px;
       object-fit: cover;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      display: block;
+      background: var(--light);
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.05);
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: white;
+      border: 1px solid var(--light);
+      border-radius: 0.75rem;
       padding: 1.5rem;
-      animation: fadeInUp 0.7s ease-out;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card h6 {
+      color: var(--gray);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .stat-card h3 {
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 0.5rem;
     }
 
     .cart-floating {
       position: fixed;
       bottom: 30px;
       left: 30px;
-      background: var(--primary);
-      color: white;
       width: 60px;
       height: 60px;
+      background: var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
       transition: all 0.3s;
-      z-index: 1000;
+      color: white;
     }
 
     .cart-floating:hover {
       transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
     }
 
     .cart-badge {
       position: absolute;
       top: -8px;
       right: -8px;
-      font-size: 0.7rem;
+      background: var(--danger);
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
     }
 
     .table {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      overflow: hidden;
+      background: white;
+      border-collapse: collapse;
+    }
+
+    .table tbody tr {
+      border-bottom: 1px solid var(--light);
+    }
+
+    .table tbody tr:hover {
+      background: var(--lighter);
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: var(--accent);
       border: none;
-      border-radius: 1rem;
-      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
       transition: all 0.3s;
     }
 
     .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
     }
 
     .modal-content {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid var(--light);
+      border-radius: 0.75rem;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
     }
 
     .form-control {
-      border-radius: 1rem;
-      border: 1.5px solid #ddd;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
       padding: 0.75rem 1rem;
-      font-size: 0.95rem;
+      transition: all 0.3s;
     }
 
     .form-control:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     }
 
     #productDetailView {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      min-height: 100vh;
-      padding: 3rem 0;
-      margin: 0 !important;
-      width: 100%;
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .product-detail-card {
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(20px);
-      border-radius: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      padding: 2.5rem;
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
     }
 
     .product-detail-img {
       width: 100%;
-      height: auto;
+      height: 400px;
       object-fit: cover;
-      border-radius: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      background: var(--light);
     }
 
     .product-detail-info h2 {
-      font-size: 2rem;
+      color: var(--primary);
       font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 1rem;
+      margin-top: 1.5rem;
     }
 
     .product-detail-category {
-      color: var(--gray);
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
+      display: inline-block;
+      background: var(--light);
+      color: var(--primary);
+      padding: 0.4rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
 
     .product-detail-description {
-      color: #555;
-      line-height: 1.8;
-      font-size: 1.05rem;
-      margin-bottom: 2rem;
-      padding: 1.5rem;
-      background: rgba(108, 92, 231, 0.05);
-      border-right: 4px solid var(--primary);
-      border-radius: 0.75rem;
+      color: var(--gray);
+      line-height: 1.6;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--lighter);
+      border-radius: 0.5rem;
+      border-left: 3px solid var(--accent);
     }
 
     .product-detail-price-section {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      background: var(--lighter);
       padding: 1.5rem;
-      background: rgba(0, 184, 148, 0.08);
-      border-radius: 1rem;
-      border-left: 4px solid var(--success);
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
     }
 
     .product-detail-price {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--primary);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
     }
 
     .product-detail-stock {
-      font-size: 1.1rem;
-      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
     }
 
     .product-detail-buttons {
       display: flex;
       gap: 1rem;
-      flex-wrap: wrap;
+      margin-top: 1.5rem;
     }
 
     .product-detail-buttons .btn {
       flex: 1;
-      min-width: 150px;
-      padding: 1rem 1.5rem;
-      font-size: 1rem;
+      padding: 0.75rem;
       font-weight: 600;
-      border-radius: 1rem;
+      border-radius: 0.5rem;
     }
 
     .offcanvas {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
+      background: white;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
     }
 
     #cartView {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      min-height: 100vh;
-      padding: 2rem 0;
-    }
-
-    .cart-page-container {
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(20px);
-      border-radius: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      background: white;
+      border-radius: 1rem;
       padding: 2rem;
     }
 
+    .cart-page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     .cart-page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-      border-bottom: 2px solid rgba(108, 92, 231, 0.2);
+      border-bottom: 2px solid var(--light);
       padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .cart-page-header h2 {
-      font-size: 2rem;
+      color: var(--primary);
       font-weight: 700;
-      color: var(--dark);
       margin: 0;
     }
 
     .cart-items-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2rem;
+      background: white;
     }
 
     .cart-items-table thead {
-      background: rgba(108, 92, 231, 0.1);
-      border-bottom: 2px solid var(--primary);
+      background: var(--light);
+      border-bottom: 2px solid var(--border);
     }
 
     .cart-items-table th {
       padding: 1rem;
       text-align: right;
-      color: var(--dark);
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--primary);
     }
 
     .cart-items-table td {
-      padding: 1.5rem 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      border-bottom: 1px solid var(--light);
       vertical-align: middle;
     }
 
     .cart-product-info {
       display: flex;
-      align-items: center;
       gap: 1rem;
+      align-items: center;
     }
 
     .cart-product-img {
       width: 80px;
       height: 80px;
+      border-radius: 0.5rem;
       object-fit: cover;
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: var(--light);
     }
 
     .cart-product-name {
       font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 0.25rem;
+      color: var(--primary);
     }
 
     .cart-product-category {
@@ -398,33 +396,31 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border);
       border-radius: 0.5rem;
       padding: 0.25rem;
     }
 
     .cart-qty-btn {
-      width: 32px;
-      height: 32px;
-      border: none;
       background: transparent;
-      color: var(--primary);
-      font-weight: bold;
+      border: none;
+      color: var(--accent);
+      width: 28px;
+      height: 28px;
       cursor: pointer;
-      border-radius: 0.25rem;
-      transition: all 0.2s;
+      font-weight: 700;
+      transition: all 0.3s;
     }
 
     .cart-qty-btn:hover {
-      background: rgba(108, 92, 231, 0.1);
+      background: var(--light);
     }
 
     .cart-qty-input {
-      width: 50px;
-      text-align: center;
+      width: 40px;
       border: none;
+      text-align: center;
       font-weight: 600;
-      font-size: 1rem;
     }
 
     .cart-qty-input:focus {
@@ -432,89 +428,135 @@
     }
 
     .cart-price {
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 1.1rem;
-      text-align: left;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 100px;
     }
 
     .cart-btn-remove {
-      background: rgba(214, 48, 49, 0.1);
+      background: transparent;
+      border: 1px solid var(--danger);
       color: var(--danger);
-      border: none;
-      border-radius: 0.5rem;
       padding: 0.5rem 1rem;
-      font-weight: 600;
+      border-radius: 0.5rem;
       cursor: pointer;
-      transition: all 0.2s;
+      font-weight: 600;
+      transition: all 0.3s;
     }
 
     .cart-btn-remove:hover {
-      background: rgba(214, 48, 49, 0.2);
-      transform: scale(1.05);
+      background: var(--danger);
+      color: white;
     }
 
     .cart-summary-section {
-      background: rgba(108, 92, 231, 0.05);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      border: 1px solid rgba(108, 92, 231, 0.2);
-      max-width: 400px;
-      margin-left: auto;
+      background: var(--lighter);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
     }
 
     .cart-summary-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 1rem;
-      font-size: 1.05rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--light);
     }
 
     .cart-summary-row.total {
-      border-top: 2px solid var(--primary);
+      border-bottom: none;
       padding-top: 1rem;
-      margin-top: 1rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--accent);
     }
 
     .cart-empty-message {
       text-align: center;
-      padding: 3rem 2rem;
+      padding: 3rem 1rem;
     }
 
     .cart-empty-icon {
       font-size: 4rem;
-      color: var(--gray);
+      color: var(--border);
       margin-bottom: 1rem;
     }
 
     .cart-empty-text {
       color: var(--gray);
       font-size: 1.1rem;
-      margin-bottom: 1.5rem;
     }
 
     .cart-actions {
       display: flex;
       gap: 1rem;
       margin-top: 2rem;
-      flex-wrap: wrap;
     }
 
     .cart-actions .btn {
       flex: 1;
-      min-width: 150px;
       padding: 1rem;
       font-weight: 600;
-      border-radius: 1rem;
-      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    /* Order Form Styles */
+    .order-form-section {
+      background: white;
+      border: 1px solid var(--light);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .order-form-title {
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--light);
+    }
+
+    .order-form .form-label {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-form .form-control,
+    .order-form .form-select {
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .order-form .form-control:focus,
+    .order-form .form-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .order-form .form-check-label {
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .order-form .form-check-input:checked {
+      background-color: var(--accent);
+      border-color: var(--accent);
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-dialog-scrollable .modal-body {
+      max-height: 70vh;
+      overflow-y: auto;
     }
 
     @media (max-width: 992px) {
@@ -538,7 +580,8 @@
           <li class="nav-item"><a class="nav-link" href="#" id="navProductsLink">محصولات</a></li>
           <li class="nav-item d-none" id="navOrdersNav"><a class="nav-link" href="#" id="navOrders">سفارش‌ها</a></li>
           <li class="nav-item"><a class="nav-link" href="#" id="navCart"><i class="bi bi-bag-fill me-2"></i>سبد خرید</a></li>
-          <li class="nav-item dropdown">
+          <li class="nav-item d-none" id="guestLoginNav"><a class="nav-link" href="login.html" id="navLogin"><i class="bi bi-box-arrow-in-right me-2"></i>ثبت‌نام / ورود</a></li>
+          <li class="nav-item dropdown d-none" id="userDropdownNav">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <span id="welcomeUser"></span>
             </a>
@@ -602,6 +645,25 @@
             <tbody id="productsTbody"></tbody>
           </table>
         </div>
+
+        <!-- Admin Orders Section -->
+        <hr class="my-5">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>📋 مدیریت سفارش‌ها</h5>
+            <button class="btn btn-outline-secondary" id="refreshOrders"><i class="bi bi-arrow-clockwise"></i></button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-info">
+                <tr>
+                  <th>#</th><th>مشتری</th><th>ایمیل</th><th>تلفن</th><th>کل</th><th>وضعیت</th><th>تاریخ</th><th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTbody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -635,7 +697,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role') || 'customer';
+    const role = localStorage.getItem('role') || 'guest';
     const userName = localStorage.getItem('userName') || 'مهمان';
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
@@ -656,15 +718,29 @@
 
     welcomeUser.innerText = userName;
 
-    if (!token) {
+    // Redirect to login only if trying to access admin features
+    if (role === 'admin' && !token) {
       location.href = 'login.html';
     }
 
-    // API Helper
+    // Show/hide login and user dropdown based on role
+    const guestLoginNav = document.getElementById('guestLoginNav');
+    const userDropdownNav = document.getElementById('userDropdownNav');
+    if (role === 'guest') {
+      guestLoginNav.classList.remove('d-none');
+      userDropdownNav.classList.add('d-none');
+    } else {
+      guestLoginNav.classList.add('d-none');
+      userDropdownNav.classList.remove('d-none');
+    }
+
+    // API Helper with optional token
     const api = (path, opts = {}) => {
       opts.headers = opts.headers || {};
       opts.headers['Content-Type'] = 'application/json';
-      opts.headers['Authorization'] = 'Bearer ' + token;
+      if (token) {
+        opts.headers['Authorization'] = 'Bearer ' + token;
+      }
       return fetch(path, opts).then(r => r.json().then(d => ({ ok: r.ok, data: d })).catch(() => ({ ok: false })));
     };
 
@@ -680,12 +756,19 @@
       adminSidebar.classList.remove('d-none');
       adminView.classList.remove('d-none');
       customerView.classList.add('d-none');
-      document.getElementById('navOrdersNav').classList.remove('d-none'); // ادمین
+      document.getElementById('navOrdersNav').classList.remove('d-none');
       loadAdminDashboard();
-    } else {
+    } else if (role === 'customer') {
       heroSection.classList.remove('d-none');
       cartFloating.classList.remove('d-none');
-      document.getElementById('navOrdersNav').classList.remove('d-none'); // مشتری هم ببینه
+      document.getElementById('navOrdersNav').classList.remove('d-none');
+      loadCustomerProducts();
+      updateCart();
+    } else {
+      // Guest role - can view products but cannot checkout without login
+      heroSection.classList.remove('d-none');
+      cartFloating.classList.remove('d-none');
+      document.getElementById('navOrdersNav').classList.add('d-none');
       loadCustomerProducts();
       updateCart();
     }
@@ -836,6 +919,14 @@ function showCustomerOrders(orders) {
 
     document.getElementById('checkoutBtn').onclick = async () => {
       if (cart.length === 0) return;
+      
+      // Check if user is authenticated
+      if (!token || role === 'guest') {
+        showAlert('برای خرید باید وارد شوید یا ثبت‌نام کنید', 'warning');
+        setTimeout(() => location.href = 'login.html', 1500);
+        return;
+      }
+      
       const res = await api('/api/orders', {
         method: 'POST',
         body: JSON.stringify({ items: cart })
@@ -857,7 +948,97 @@ function showCustomerOrders(orders) {
         renderStats(res.data.stats);
         renderAdminProducts(res.data.products || []);
       }
+      await loadAdminOrders();
     }
+
+    async function loadAdminOrders() {
+      const res = await api('/api/admin/orders');
+      if (res.ok) {
+        renderAdminOrders(res.data || []);
+      }
+    }
+
+    function renderAdminOrders(orders) {
+      const ordersTbody = document.getElementById('ordersTbody');
+      if (!ordersTbody) return;
+
+      ordersTbody.innerHTML = '';
+      if (!orders.length) {
+        ordersTbody.innerHTML = '<tr><td colspan="8" class="text-center py-4">سفارشی ثبت نشده</td></tr>';
+        return;
+      }
+
+      orders.forEach(o => {
+        const tr = document.createElement('tr');
+        const statusBadgeClass = {
+          'pending': 'warning',
+          'paid': 'info',
+          'shipped': 'primary',
+          'completed': 'success',
+          'cancelled': 'danger'
+        };
+        const statusMap = {
+          'pending': 'در انتظار',
+          'paid': 'پرداخت شده',
+          'shipped': 'ارسال شده',
+          'completed': 'تکمیل شده',
+          'cancelled': 'لغو شده'
+        };
+
+        const orderDate = new Date(o.order_date).toLocaleDateString('fa-IR');
+
+        tr.innerHTML = `
+          <td><strong>${o.id}</strong></td>
+          <td>${o.customer_name}</td>
+          <td>${o.customer_email}</td>
+          <td>${o.customer_phone || '-'}</td>
+          <td>${Number(o.total_price).toLocaleString()} تومان</td>
+          <td>
+            <select class="form-select form-select-sm" data-id="${o.id}" onchange="updateOrderStatus(${o.id}, this.value)">
+              <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>در انتظار</option>
+              <option value="paid" ${o.status === 'paid' ? 'selected' : ''}>پرداخت شده</option>
+              <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>ارسال شده</option>
+              <option value="completed" ${o.status === 'completed' ? 'selected' : ''}>تکمیل شده</option>
+              <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>لغو شده</option>
+            </select>
+          </td>
+          <td>${orderDate}</td>
+          <td>
+            <button class="btn btn-sm btn-info" onclick="showOrderDetails('${o.id}', '${o.customer_name}', '${o.shipping_address}', '${o.payment_method}', '${o.items}')">
+              جزئیات
+            </button>
+          </td>
+        `;
+        ordersTbody.appendChild(tr);
+      });
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      const res = await api(`/api/admin/orders/${orderId}/status`, {
+        method: 'PUT',
+        body: JSON.stringify({ status })
+      });
+
+      if (res.ok) {
+        showAlert('وضعیت سفارش بروزرسانی شد', 'success');
+        await loadAdminOrders();
+      } else {
+        showAlert('خطا در بروزرسانی وضعیت', 'danger');
+      }
+    }
+
+    function showOrderDetails(id, customerName, address, method, items) {
+      const details = `
+        <h5>سفارش #${id}</h5>
+        <p><strong>مشتری:</strong> ${customerName}</p>
+        <p><strong>آدرس:</strong> ${address}</p>
+        <p><strong>روش پرداخت:</strong> ${method}</p>
+        <p><strong>محصولات:</strong></p>
+        <p style="direction: ltr; text-align: left; word-break: break-all; font-size: 0.85rem;">${items}</p>
+      `;
+      showAlert(details, 'info');
+    }
+
 
     function renderStats(stats) {
       statsRow.innerHTML = `
@@ -934,6 +1115,12 @@ function showCustomerOrders(orders) {
       });
     }
 
+    // Refresh Orders Button
+    const refreshOrdersBtn = document.getElementById('refreshOrders');
+    if (refreshOrdersBtn) {
+      refreshOrdersBtn.onclick = loadAdminOrders;
+    }
+
     // Navigation
     document.getElementById('navHome').onclick = () => location.reload();
     document.getElementById('navProductsLink').onclick = (e) => {
@@ -963,9 +1150,9 @@ function showCustomerOrders(orders) {
 
   </script>
 
-  <!-- Modal: افزودن محصول (به‌روزشده با آپلود عکس) -->
+  <!-- Modal: افزودن محصول (به‌روزشده با آپلود عکس و مشخصات) -->
 <div class="modal fade" id="addProductModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <form id="addProductForm" enctype="multipart/form-data">
         <div class="modal-header">
@@ -973,32 +1160,125 @@ function showCustomerOrders(orders) {
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
+          <!-- Basic Info -->
           <div class="mb-3">
             <label class="form-label">نام محصول *</label>
             <input type="text" id="p_name" class="form-control" required />
           </div>
+          
+          <div class="mb-3">
+            <label class="form-label">دسته‌بندی *</label>
+            <select id="p_category" class="form-select" required onchange="updateSpecifications()">
+              <option value="">انتخاب کنید...</option>
+              <option value="laptop">لپ‌تاپ</option>
+              <option value="mobile">موبایل</option>
+            </select>
+          </div>
+
           <div class="mb-3">
             <label class="form-label">توضیحات</label>
             <textarea id="p_description" class="form-control" rows="3"></textarea>
           </div>
+          
           <div class="mb-3">
             <label class="form-label">قیمت (تومان) *</label>
             <input type="number" id="p_price" class="form-control" required />
           </div>
+          
           <div class="mb-3">
             <label class="form-label">موجودی</label>
             <input type="number" id="p_stock" class="form-control" value="1" />
           </div>
-          <div class="mb-3">
-            <label class="form-label">دسته‌بندی</label>
-            <input type="text" id="p_category" class="form-control" placeholder="مثلاً: لپ‌تاپ، موبایل" />
-          </div>
+          
           <div class="mb-3">
             <label class="form-label">عکس محصول</label>
             <input type="file" id="p_image" class="form-control" accept="image/*" />
             <div class="form-text">حداکثر ۵ مگابایت - فرمت: JPG, PNG, WebP</div>
           </div>
+
+          <!-- Laptop Specifications -->
+          <div id="laptopSpecs" class="d-none">
+            <hr class="my-4" />
+            <h6 class="mb-3">📱 مشخصات لپ‌تاپ</h6>
+            
+            <div class="mb-3">
+              <label class="form-label">نورپردازی صفحه کلید</label>
+              <input type="text" id="laptop_keyboard_light" class="form-control" placeholder="مثال: تک رنگ" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">سازنده پردازنده گرافیکی</label>
+              <input type="text" id="laptop_gpu" class="form-control" placeholder="مثال: NVIDIA" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">ظرفیت حافظه رم (RAM)</label>
+              <input type="text" id="laptop_ram" class="form-control" placeholder="مثال: 16 گیگابایت" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">نسل پردازنده</label>
+              <input type="text" id="laptop_processor" class="form-control" placeholder="مثال: نسل 13 اینتل" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">دقت صفحه نمایش</label>
+              <input type="text" id="laptop_resolution" class="form-control" placeholder="مثال: Full HD | 1920 x1080 پیکسل" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">ظرفیت حافظه داخلی</label>
+              <input type="text" id="laptop_storage" class="form-control" placeholder="مثال: 512 گیگابایت" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">نرخ بروزرسانی تصویر</label>
+              <input type="text" id="laptop_refresh_rate" class="form-control" placeholder="مثال: 144 هرتز" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">کاربری</label>
+              <input type="text" id="laptop_usage" class="form-control" placeholder="مثال: گیمینگ" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">نوع روکش صفحه‌نمایش</label>
+              <input type="text" id="laptop_screen_type" class="form-control" placeholder="مثال: مات" />
+            </div>
+          </div>
+
+          <!-- Mobile Phone Specifications -->
+          <div id="mobileSpecs" class="d-none">
+            <hr class="my-4" />
+            <h6 class="mb-3">📱 مشخصات موبایل</h6>
+
+            <div class="mb-3">
+              <label class="form-label">ریجن</label>
+              <input type="text" id="mobile_region" class="form-control" placeholder="مثال: ویتنام" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">نوع گوشی موبایل</label>
+              <input type="text" id="mobile_type" class="form-control" placeholder="مثال: سیستم عامل اندروید" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">دسته‌بندی</label>
+              <input type="text" id="mobile_class" class="form-control" placeholder="مثال: پرچم‌دار" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">مدل</label>
+              <input type="text" id="mobile_model" class="form-control" placeholder="مثال: Galaxy S۲۵ Ultra" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">زمان معرفی</label>
+              <input type="text" id="mobile_launch_date" class="form-control" placeholder="مثال: ۲۲ ژانویه ۲۰۲۵" />
+            </div>
+          </div>
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
           <button type="submit" class="btn btn-primary">افزودن محصول</button>
@@ -1018,10 +1298,11 @@ document.getElementById('addProductForm').onsubmit = async (e) => {
   
   // Validate required fields
   const name = document.getElementById('p_name').value.trim();
+  const category = document.getElementById('p_category').value.trim();
   const priceInput = document.getElementById('p_price').value;
   
-  if (!name || !priceInput) {
-    showAlert('نام و قیمت الزامی است!', 'danger');
+  if (!name || !category || !priceInput) {
+    showAlert('نام، دسته‌بندی و قیمت الزامی است!', 'danger');
     return;
   }
   
@@ -1037,14 +1318,44 @@ document.getElementById('addProductForm').onsubmit = async (e) => {
   formData.append('price', price);
   const stockValue = document.getElementById('p_stock').value;
   formData.append('stock', stockValue ? parseInt(stockValue) : 1);
-  formData.append('category', document.getElementById('p_category').value.trim());
+  formData.append('category', category);
+  
+  // Add specifications based on category
+  const specs = {};
+  
+  if (category === 'laptop') {
+    specs.keyboard_light = document.getElementById('laptop_keyboard_light').value.trim();
+    specs.gpu = document.getElementById('laptop_gpu').value.trim();
+    specs.ram = document.getElementById('laptop_ram').value.trim();
+    specs.processor = document.getElementById('laptop_processor').value.trim();
+    specs.resolution = document.getElementById('laptop_resolution').value.trim();
+    specs.storage = document.getElementById('laptop_storage').value.trim();
+    specs.refresh_rate = document.getElementById('laptop_refresh_rate').value.trim();
+    specs.usage = document.getElementById('laptop_usage').value.trim();
+    specs.screen_type = document.getElementById('laptop_screen_type').value.trim();
+  } else if (category === 'mobile') {
+    specs.region = document.getElementById('mobile_region').value.trim();
+    specs.type = document.getElementById('mobile_type').value.trim();
+    specs.class = document.getElementById('mobile_class').value.trim();
+    specs.model = document.getElementById('mobile_model').value.trim();
+    specs.launch_date = document.getElementById('mobile_launch_date').value.trim();
+  }
+  
+  formData.append('specifications', JSON.stringify(specs));
+  
   const fileInput = document.getElementById('p_image');
   if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
 
   try {
+    const authToken = localStorage.getItem('token');
+    if (!authToken) {
+      showAlert('لطفاً ابتدا وارد سیستم شوید', 'danger');
+      return;
+    }
+
     const res = await fetch('/api/admin/products', {
       method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + token },
+      headers: { 'Authorization': 'Bearer ' + authToken },
       body: formData
     });
 
@@ -1054,6 +1365,8 @@ document.getElementById('addProductForm').onsubmit = async (e) => {
     if (res.ok) {
       addModal.hide();
       document.getElementById('addProductForm').reset();
+      document.getElementById('laptopSpecs').classList.add('d-none');
+      document.getElementById('mobileSpecs').classList.add('d-none');
       showAlert('محصول با موفقیت اضافه شد!', 'success');
       loadAdminDashboard();
     } else {
@@ -1066,6 +1379,24 @@ document.getElementById('addProductForm').onsubmit = async (e) => {
     showAlert('خطا در ارسال: ' + error.message, 'danger');
   }
 };
+
+// تابع برای نمایش/پنهان کردن مشخصات براساس دسته‌بندی
+function updateSpecifications() {
+  const category = document.getElementById('p_category').value;
+  const laptopSpecs = document.getElementById('laptopSpecs');
+  const mobileSpecs = document.getElementById('mobileSpecs');
+  
+  if (category === 'laptop') {
+    laptopSpecs.classList.remove('d-none');
+    mobileSpecs.classList.add('d-none');
+  } else if (category === 'mobile') {
+    laptopSpecs.classList.add('d-none');
+    mobileSpecs.classList.remove('d-none');
+  } else {
+    laptopSpecs.classList.add('d-none');
+    mobileSpecs.classList.add('d-none');
+  }
+}
 
   </script>
 
@@ -1149,6 +1480,46 @@ document.getElementById('addProductForm').onsubmit = async (e) => {
             <span>قابل پرداخت:</span>
             <span id="cartFinalTotal">۰ تومان</span>
           </div>
+        </div>
+
+        <!-- Order Form -->
+        <div class="order-form-section">
+          <h4 class="order-form-title">📋 اطلاعات سفارش</h4>
+          <form id="orderForm" class="order-form">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="shippingAddress" class="form-label">آدرس تحویل *</label>
+                  <textarea
+                    class="form-control"
+                    id="shippingAddress"
+                    rows="3"
+                    placeholder="آدرس کامل تحویل سفارش را وارد کنید..."
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="paymentMethod" class="form-label">روش پرداخت *</label>
+                  <select class="form-select" id="paymentMethod" required>
+                    <option value="">انتخاب کنید...</option>
+                    <option value="cash">پرداخت نقدی هنگام تحویل</option>
+                    <option value="card">کارت به کارت</option>
+                    <option value="online">پرداخت آنلاین</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">
+                      شرایط و قوانین فروشگاه را می‌پذیرم
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
 
         <div class="cart-actions">
@@ -1296,22 +1667,60 @@ function removeFromCart(idx) {
 // Cart Page Checkout
 document.getElementById('cartCheckoutBtn').onclick = async () => {
   if (cart.length === 0) return;
+  
+  // Check if user is authenticated
+  if (!token || role === 'guest') {
+    showAlert('برای خرید باید وارد شوید یا ثبت‌نام کنید', 'warning');
+    setTimeout(() => location.href = 'login.html', 1500);
+    return;
+  }
+
+  // Get form data
+  const shippingAddress = document.getElementById('shippingAddress').value.trim();
+  const paymentMethod = document.getElementById('paymentMethod').value;
+  const termsCheck = document.getElementById('termsCheck').checked;
+
+  if (!shippingAddress) {
+    showAlert('آدرس تحویل را وارد کنید', 'warning');
+    return;
+  }
+
+  if (!paymentMethod) {
+    showAlert('روش پرداخت را انتخاب کنید', 'warning');
+    return;
+  }
+
+  if (!termsCheck) {
+    showAlert('شرایط و قوانین را بپذیرید', 'warning');
+    return;
+  }
+  
   const res = await api('/api/orders', {
     method: 'POST',
-    body: JSON.stringify({ items: cart })
+    body: JSON.stringify({
+      items: cart,
+      shipping_address: shippingAddress,
+      payment_method: paymentMethod
+    })
   });
+
   if (res.ok) {
+    const orderId = res.data.orderId;
     cart = [];
     localStorage.removeItem('cart');
-    showAlert('سفارش با موفقیت ثبت شد!', 'success');
+    showAlert(`سفارش #${orderId} با موفقیت ثبت شد!`, 'success');
     updateCart();
+    
+    // Clear form
+    document.getElementById('orderForm').reset();
+    
     setTimeout(() => {
       document.getElementById('cartView').classList.add('d-none');
       document.getElementById('customerView').classList.remove('d-none');
       loadCustomerProducts();
-    }, 1500);
+    }, 2000);
   } else {
-    showAlert('خطا در ثبت سفارش', 'danger');
+    showAlert(res.data?.message || 'خطا در ثبت سفارش', 'danger');
   }
 };
 
