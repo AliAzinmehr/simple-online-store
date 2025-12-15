@@ -296,7 +296,7 @@ app.post('/api/orders', verifyToken, (req, res) => {
         const values = items.map(i => [orderId, i.id, i.qty, i.price]);
 
         // Insert order items
-        db.query('INSERT INTO order_items (order_id,product_id,quantity,price) VALUES ?', [values], err => {
+        db.query('INSERT INTO order_items (order_id,product_id,quantity,unit_price) VALUES ?', [values], err => {
           if (err) {
             return db.rollback(() => res.status(500).json({ error: err.message }));
           }
