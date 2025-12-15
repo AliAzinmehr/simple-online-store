@@ -1703,7 +1703,7 @@ document.getElementById('cartCheckoutBtn').onclick = async () => {
       payment_method: paymentMethod
     })
   });
-
+console.log('Order response:', res, shippingAddress)
   if (res.ok) {
     const orderId = res.data.orderId;
     cart = [];

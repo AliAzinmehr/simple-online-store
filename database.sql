@@ -30,11 +30,19 @@ CREATE TABLE IF NOT EXISTS products (
 -- افزودن ستون specifications اگر وجود نداشته باشد
 ALTER TABLE products ADD COLUMN IF NOT EXISTS specifications JSON;
 
+-- افزودن ستون‌های موجود نیست برای جدول orders
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_address VARCHAR(500);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_method ENUM('cash','card','online') DEFAULT 'cash';
+
+-- بزرگ‌تر کردن ستون‌های قیمت برای مقادیر بزرگ
+ALTER TABLE orders MODIFY COLUMN total_price DECIMAL(15,2);
+ALTER TABLE order_items MODIFY COLUMN unit_price DECIMAL(15,2);
+
 -- 📦 جدول سفارش‌ها (Orders)
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  total_price DECIMAL(10,2) NOT NULL,
+  total_price DECIMAL(15,2) NOT NULL,
   status ENUM('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
   order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   shipping_address VARCHAR(500),
@@ -48,7 +56,7 @@ CREATE TABLE IF NOT EXISTS order_items (
   order_id INT NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
-  unit_price DECIMAL(10,2) NOT NULL,
+  unit_price DECIMAL(15,2) NOT NULL,
   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );

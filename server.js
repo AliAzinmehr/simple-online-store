@@ -257,15 +257,39 @@ app.post('/api/orders', verifyToken, (req, res) => {
   const { items, shipping_address, payment_method } = req.body;
   const userId = req.user.id;
 
+  console.log('=== Order Request ===');
+  console.log('User ID:', userId);
+  console.log('Items:', items);
+  console.log('Shipping Address:', shipping_address);
+  console.log('Payment Method:', payment_method);
+
   if (!items?.length) return res.status(400).json({ message: 'سبد خالی است' });
   if (!shipping_address) return res.status(400).json({ message: 'آدرس تحویل الزامی است' });
   if (!payment_method) return res.status(400).json({ message: 'روش پرداخت الزامی است' });
 
   // Check stock availability for all items
-  const productIds = items.map(item => item.id);
-  db.query('SELECT id, stock FROM products WHERE id IN (?)', [productIds], (err, products) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const productIds = items.map(item => item.id).filter(id => id);
+  
+  if (!productIds.length) {
+    console.error('No product IDs found');
+    return res.status(400).json({ message: 'محصولات برای سفارش نیافت شدند' });
+  }
 
+  const placeholders = productIds.map(() => '?').join(',');
+  const query = `SELECT id, stock FROM products WHERE id IN (${placeholders})`;
+  
+  console.log('Executing query:', query);
+  console.log('With IDs:', productIds);
+
+  db.query(query, productIds, (err, products) => {
+    if (err) {
+      console.error('Stock check error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    console.log('Products found:', products.length);
+    console.log('Products:', products);
+    
     // Check if all products exist and have sufficient stock
     const stockMap = {};
     products.forEach(p => stockMap[p.id] = p.stock);
@@ -280,49 +304,54 @@ app.post('/api/orders', verifyToken, (req, res) => {
     }
 
     const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+    console.log('Total order price:', total);
 
-    // Start transaction
-    db.beginTransaction(err => {
-      if (err) return res.status(500).json({ error: err.message });
+    // Insert order without transaction to simplify
+    db.query('INSERT INTO orders (user_id, total_price, shipping_address, payment_method) VALUES (?, ?, ?, ?)',
+      [userId, total, shipping_address, payment_method], (err, result) => {
+      if (err) {
+        console.error('Order insert error:', err);
+        return res.status(500).json({ error: 'Order insert failed: ' + err.message });
+      }
 
-      // Insert order
-      db.query('INSERT INTO orders (user_id, total_price, shipping_address, payment_method) VALUES (?, ?, ?, ?)',
-        [userId, total, shipping_address, payment_method], (err, result) => {
+      const orderId = result.insertId;
+      console.log('Order created with ID:', orderId);
+      const values = items.map(i => [orderId, i.id, i.qty, i.price]);
+      console.log('Order items values:', values);
+
+      // Insert order items
+      db.query('INSERT INTO order_items (order_id,product_id,quantity,unit_price) VALUES ?', [values], err => {
         if (err) {
-          return db.rollback(() => res.status(500).json({ error: err.message }));
+          console.error('Order items insert error:', err);
+          return res.status(500).json({ error: 'Order items insert failed: ' + err.message });
         }
 
-        const orderId = result.insertId;
-        const values = items.map(i => [orderId, i.id, i.qty, i.price]);
+        console.log('Order items inserted');
 
-        // Insert order items
-        db.query('INSERT INTO order_items (order_id,product_id,quantity,unit_price) VALUES ?', [values], err => {
-          if (err) {
-            return db.rollback(() => res.status(500).json({ error: err.message }));
-          }
+        // Update product stock
+        let updateCount = 0;
+        let updateErrors = [];
 
-          // Update product stock
-          const updatePromises = items.map(item =>
-            new Promise((resolve, reject) => {
-              db.query('UPDATE products SET stock = stock - ? WHERE id = ?', [item.qty, item.id], (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-              });
-            })
-          );
+        items.forEach((item, index) => {
+          db.query('UPDATE products SET stock = stock - ? WHERE id = ?', [item.qty, item.id], (err) => {
+            updateCount++;
+            if (err) {
+              console.error(`Stock update error for product ${item.id}:`, err);
+              updateErrors.push(err);
+            } else {
+              console.log(`Stock updated for product ${item.id}`);
+            }
 
-          Promise.all(updatePromises)
-            .then(() => {
-              db.commit(err => {
-                if (err) {
-                  return db.rollback(() => res.status(500).json({ error: err.message }));
-                }
-                res.json({ message: 'سفارش با موفقیت ثبت شد', orderId, total });
-              });
-            })
-            .catch(err => {
-              db.rollback(() => res.status(500).json({ error: err.message }));
-            });
+            // When all updates are done
+            if (updateCount === items.length) {
+              if (updateErrors.length > 0) {
+                console.error('Stock update errors:', updateErrors);
+                return res.status(500).json({ error: 'Stock update failed' });
+              }
+              console.log('All stock updates completed');
+              res.json({ message: 'سفارش با موفقیت ثبت شد', orderId, total });
+            }
+          });
         });
       });
     });
