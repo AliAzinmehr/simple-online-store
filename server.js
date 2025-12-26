@@ -54,19 +54,65 @@ app.get('/api/test', (req, res) => {
 
 // لیست محصولات (عمومی)
 app.get('/api/products', (req, res) => {
-  db.query('SELECT * FROM products ORDER BY id DESC', (err, results) => {
+  db.query('SELECT *, JSON_TYPE(specifications) as spec_type FROM products ORDER BY id DESC', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results);
+    
+    // Parse specifications for all products
+    const products = results.map(product => {
+      console.log(`Product ${product.id}: spec_type=${product.spec_type}, specifications:`, product.specifications);
+      
+      // Ensure specifications is an object
+      if (!product.specifications) {
+        product.specifications = {};
+      } else if (typeof product.specifications === 'string') {
+        try {
+          product.specifications = JSON.parse(product.specifications);
+        } catch (e) {
+          console.warn('Could not parse specifications for product', product.id, ':', e);
+          product.specifications = {};
+        }
+      }
+      // Remove the temporary spec_type field
+      delete product.spec_type;
+      return product;
+    });
+    
+    res.json(products);
   });
 });
 
 // جزئیات محصول
 app.get('/api/products/:id', (req, res) => {
   const id = req.params.id;
-  db.query('SELECT * FROM products WHERE id = ?', [id], (err, results) => {
+  db.query('SELECT *, JSON_TYPE(specifications) as spec_type FROM products WHERE id = ?', [id], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     if (!results.length) return res.status(404).json({ message: 'محصول یافت نشد' });
-    res.json(results[0]);
+    
+    const product = results[0];
+    
+    console.log(`=== Product ${id} Detail ===`);
+    console.log('Raw specifications:', product.specifications);
+    console.log('Spec type:', product.spec_type);
+    console.log('Specifications type:', typeof product.specifications);
+    
+    // Ensure specifications is an object
+    if (!product.specifications) {
+      product.specifications = {};
+    } else if (typeof product.specifications === 'string') {
+      try {
+        product.specifications = JSON.parse(product.specifications);
+        console.log('Parsed specifications:', product.specifications);
+      } catch (e) {
+        console.error('Could not parse specifications for product', id, ':', e);
+        product.specifications = {};
+      }
+    }
+    
+    // Remove the temporary spec_type field
+    delete product.spec_type;
+    
+    console.log('Final product object:', product);
+    res.json(product);
   });
 });
 

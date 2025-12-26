@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS products (
   stock INT DEFAULT 0,
   image_url VARCHAR(255),
   category VARCHAR(100),
-  specifications JSON,
+  specifications LONGTEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

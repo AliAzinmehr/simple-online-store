@@ -67,8 +67,8 @@
       min-width: 260px;
       max-width: 260px;
       background: white;
-      border-left: 1px solid var(--light);
-      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+      border-right: 1px solid var(--light);
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
       height: 100vh;
       position: sticky;
       top: 0;
@@ -126,7 +126,7 @@
     .product-img {
       width: 100%;
       height: 250px;
-      object-fit: cover;
+      object-fit: contain;
       background: var(--light);
       transition: transform 0.3s;
     }
@@ -159,7 +159,7 @@
     .cart-floating {
       position: fixed;
       bottom: 30px;
-      left: 30px;
+      right: 30px;
       width: 60px;
       height: 60px;
       background: var(--accent);
@@ -253,7 +253,7 @@
     }
 
     .product-detail-img {
-      width: 100%;
+      /* width: 100%; */
       height: 400px;
       object-fit: cover;
       background: var(--light);
@@ -319,7 +319,7 @@
 
     .offcanvas {
       background: white;
-      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     }
 
     #cartView {
@@ -530,7 +530,7 @@
     .order-form .form-select {
       border: 1px solid var(--border);
       border-radius: 0.5rem;
-      padding: 0.75rem 1rem;
+     
     }
 
     .order-form .form-control:focus,
@@ -570,17 +570,16 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">🛒 SIMPLE SHOP</a>
+      <a class="navbar-brand" href="#" id="navBrand" style="cursor: pointer;">🛒 SIMPLE SHOP</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link active" href="#" id="navHome">خانه</a></li>
           <li class="nav-item"><a class="nav-link" href="#" id="navProductsLink">محصولات</a></li>
           <li class="nav-item d-none" id="navOrdersNav"><a class="nav-link" href="#" id="navOrders">سفارش‌ها</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" id="navCart"><i class="bi bi-bag-fill me-2"></i>سبد خرید</a></li>
-          <li class="nav-item d-none" id="guestLoginNav"><a class="nav-link" href="login.html" id="navLogin"><i class="bi bi-box-arrow-in-right me-2"></i>ثبت‌نام / ورود</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="navCart">سبد خرید</a></li>
+          <li class="nav-item d-none" id="guestLoginNav"><a class="nav-link" href="login.html" id="navLogin"><i class="bi -in-right me-2"></i>ثبت‌نام / ورود</a></li>
           <li class="nav-item dropdown d-none" id="userDropdownNav">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <span id="welcomeUser"></span>
@@ -618,10 +617,7 @@
 
       <!-- Customer Products -->
       <div id="customerView">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3>محصولات</h3>
-          <input type="text" class="form-control w-auto" placeholder="جستجو..." id="searchInput">
-        </div>
+     
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="productsContainer"></div>
       </div>
 
@@ -696,6 +692,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Convert English numbers to Persian
+    function toPersianNumber(num) {
+      const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+      return String(num).replace(/\d/g, d => persianDigits[d]);
+    }
+
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role') || 'guest';
     const userName = localStorage.getItem('userName') || 'مهمان';
@@ -741,7 +743,24 @@
       if (token) {
         opts.headers['Authorization'] = 'Bearer ' + token;
       }
-      return fetch(path, opts).then(r => r.json().then(d => ({ ok: r.ok, data: d })).catch(() => ({ ok: false })));
+      return fetch(path, opts)
+        .then(r => {
+          if (!r.ok && r.status === 401) {
+            localStorage.clear();
+            location.href = 'login.html';
+          }
+          return r.json().then(d => {
+            console.log('API Response:', path, d);
+            return { ok: r.ok, data: d };
+          }).catch(err => {
+            console.error('JSON parse error:', err);
+            return { ok: false, data: {} };
+          });
+        })
+        .catch(err => {
+          console.error('Fetch error:', err);
+          return { ok: false, data: {} };
+        });
     };
 
     // Logout
@@ -760,14 +779,14 @@
       loadAdminDashboard();
     } else if (role === 'customer') {
       heroSection.classList.remove('d-none');
-      cartFloating.classList.remove('d-none');
+      cartFloating.classList.add('d-none');
       document.getElementById('navOrdersNav').classList.remove('d-none');
       loadCustomerProducts();
       updateCart();
     } else {
       // Guest role - can view products but cannot checkout without login
       heroSection.classList.remove('d-none');
-      cartFloating.classList.remove('d-none');
+      cartFloating.classList.add('d-none');
       document.getElementById('navOrdersNav').classList.add('d-none');
       loadCustomerProducts();
       updateCart();
@@ -927,18 +946,12 @@ function showCustomerOrders(orders) {
         return;
       }
       
-      const res = await api('/api/orders', {
-        method: 'POST',
-        body: JSON.stringify({ items: cart })
-      });
-      if (res.ok) {
-        showAlert('سفارش با موفقیت ثبت شد!', 'success');
-        localStorage.removeItem('cart');
-        cart = [];
-        updateCart();
-      } else {
-        showAlert(res.data?.message || 'خطا در ثبت سفارش', 'danger');
+      // Close the offcanvas and show the full cart page
+      const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
+      if (offcanvas) {
+        offcanvas.hide();
       }
+      showCartPage();
     };
 
     // Admin Dashboard
@@ -1044,8 +1057,8 @@ function showCustomerOrders(orders) {
       statsRow.innerHTML = `
         <div class="col-md-4 mb-3">
           <div class="stat-card">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-box-seam text-primary fs-2 me-3"></i>
+            <div class="d-flex align-items-center flex-row-reverse">
+              <i class="bi bi-box-seam text-primary fs-2 ms-3"></i>
               <div>
                 <h6 class="text-muted">محصولات</h6>
                 <h3 class="mb-0">${stats.productCount || 0}</h3>
@@ -1055,8 +1068,8 @@ function showCustomerOrders(orders) {
         </div>
         <div class="col-md-4 mb-3">
           <div class="stat-card">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-cart-check text-success fs-2 me-3"></i>
+            <div class="d-flex align-items-center flex-row-reverse">
+              <i class="bi bi-cart-check text-success fs-2 ms-3"></i>
               <div>
                 <h6 class="text-muted">سفارش‌ها</h6>
                 <h3 class="mb-0">${stats.orderCount || 0}</h3>
@@ -1066,8 +1079,8 @@ function showCustomerOrders(orders) {
         </div>
         <div class="col-md-4 mb-3">
           <div class="stat-card">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-currency-exchange text-warning fs-2 me-3"></i>
+            <div class="d-flex align-items-center flex-row-reverse">
+              <i class="bi bi-currency-exchange text-warning fs-2 ms-3"></i>
               <div>
                 <h6 class="text-muted">درآمد کل</h6>
                 <h3 class="mb-0">${(stats.totalRevenue || 0).toLocaleString()} تومان</h3>
@@ -1122,13 +1135,21 @@ function showCustomerOrders(orders) {
     }
 
     // Navigation
-    document.getElementById('navHome').onclick = () => location.reload();
-    document.getElementById('navProductsLink').onclick = (e) => {
-      e.preventDefault();
+    const goHome = () => {
       document.getElementById('cartView').classList.add('d-none');
       document.getElementById('productDetailView').classList.add('d-none');
       document.getElementById('customerView').classList.remove('d-none');
       loadCustomerProducts();
+    };
+    
+    document.getElementById('navBrand').onclick = (e) => {
+      e.preventDefault();
+      goHome();
+    };
+    
+    document.getElementById('navProductsLink').onclick = (e) => {
+      e.preventDefault();
+      goHome();
     };
     document.getElementById('shopNowBtn').onclick = () => window.scrollTo(0, document.getElementById('customerView').offsetTop);
     document.getElementById('refreshProducts').onclick = () => location.reload();
@@ -1429,6 +1450,16 @@ function updateSpecifications() {
               <i class="bi bi-arrow-right"></i> بازگشت
             </button>
           </div>
+
+          <!-- Specifications Section -->
+          <div id="detailSpecifications" class="mt-5 d-none">
+            <h5 class="mb-3">مشخصات محصول</h5>
+            <div class="table-responsive">
+              <table class="table table-sm table-bordered">
+                <tbody id="specTable"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1484,7 +1515,7 @@ function updateSpecifications() {
 
         <!-- Order Form -->
         <div class="order-form-section">
-          <h4 class="order-form-title">📋 اطلاعات سفارش</h4>
+          <h4 class="order-form-title">اطلاعات سفارش</h4>
           <form id="orderForm" class="order-form">
             <div class="row">
               <div class="col-md-6">
@@ -1502,14 +1533,14 @@ function updateSpecifications() {
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="paymentMethod" class="form-label">روش پرداخت *</label>
-                  <select class="form-select" id="paymentMethod" required>
+                  <select class="form-select" id="paymentMethod" required style="width: 100%;">
                     <option value="">انتخاب کنید...</option>
                     <option value="cash">پرداخت نقدی هنگام تحویل</option>
                     <option value="card">کارت به کارت</option>
                     <option value="online">پرداخت آنلاین</option>
                   </select>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 mt-4">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="termsCheck" required>
                     <label class="form-check-label" for="termsCheck">
@@ -1541,9 +1572,19 @@ async function showProductDetail(id) {
   customerView.classList.add('d-none');
   document.getElementById('productDetailView').classList.remove('d-none');
   const res = await api(`/api/products/${id}`);
-  if (!res.ok) return showAlert('محصول یافت نشد', 'danger');
+  
+  console.log('Product Detail Response:', res);
+  
+  if (!res.ok) {
+    showAlert('محصول یافت نشد', 'danger');
+    return;
+  }
 
   const p = res.data;
+  console.log('Product Data:', p);
+  console.log('Specifications Type:', typeof p.specifications);
+  console.log('Specifications Value:', p.specifications);
+  
   document.getElementById('detailImage').src = p.image_url || 'https://via.placeholder.com/500';
   document.getElementById('detailName').innerText = p.name;
   document.getElementById('detailCategory').innerText = p.category || 'بدون دسته';
@@ -1551,6 +1592,61 @@ async function showProductDetail(id) {
   document.getElementById('detailPrice').innerText = Number(p.price).toLocaleString() + ' تومان';
   document.getElementById('detailStock').className = p.stock > 0 ? 'badge bg-success' : 'badge bg-danger';
   document.getElementById('detailStock').innerText = p.stock > 0 ? `${p.stock} عدد موجود` : 'ناموجود';
+
+  // Display specifications
+  const specSection = document.getElementById('detailSpecifications');
+  const specTable = document.getElementById('specTable');
+  
+  // Handle both string and object formats for specifications
+  let specs = null;
+  
+  if (p.specifications) {
+    if (typeof p.specifications === 'string') {
+      try {
+        specs = JSON.parse(p.specifications);
+        console.log('Parsed specs from string:', specs);
+      } catch (e) {
+        console.error('Error parsing specifications:', e);
+        specs = null;
+      }
+    } else if (typeof p.specifications === 'object') {
+      specs = p.specifications;
+      console.log('Specifications is already object:', specs);
+    }
+  }
+  
+  console.log('Final specs object:', specs);
+  
+  if (specs && Object.keys(specs).length > 0) {
+    specTable.innerHTML = '';
+    let hasSpecs = false;
+    
+    for (const [key, value] of Object.entries(specs)) {
+      console.log(`Processing spec: ${key} = ${value} (type: ${typeof value}, truthy: ${!!value})`);
+      // فیلتر کردن فیلدهای خالی، null و undefined
+      if (value !== null && value !== undefined && String(value).trim() !== '') {
+        hasSpecs = true;
+        const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        const row = document.createElement('tr');
+        row.innerHTML = `<td style="font-weight: 600; width: 30%;">${label}</td><td>${String(value).trim()}</td>`;
+        specTable.appendChild(row);
+        console.log(`✅ Added spec: ${label} = ${value}`);
+      }
+    }
+    
+    console.log('Has specs with values:', hasSpecs);
+    
+    if (hasSpecs) {
+      specSection.classList.remove('d-none');
+      console.log('Showing specifications section');
+    } else {
+      specSection.classList.add('d-none');
+      console.log('No non-empty specifications found');
+    }
+  } else {
+    console.log('No specs found or empty');
+    specSection.classList.add('d-none');
+  }
 
   document.getElementById('addToCartBtn').onclick = () => {
     addToCart(p.id, p.name, p.price, p.image_url || 'https://via.placeholder.com/300');
@@ -1601,7 +1697,7 @@ function renderCartPage() {
         </div>
       </td>
       <td>
-        <div class="cart-price">${Number(item.price).toLocaleString()} تومان</div>
+        <div class="cart-price">${toPersianNumber(Number(item.price).toLocaleString())} تومان</div>
       </td>
       <td>
         <div class="cart-qty-control">
@@ -1611,7 +1707,7 @@ function renderCartPage() {
         </div>
       </td>
       <td>
-        <div class="cart-price">${Number(itemTotal).toLocaleString()} تومان</div>
+        <div class="cart-price">${toPersianNumber(Number(itemTotal).toLocaleString())} تومان</div>
       </td>
       <td>
         <button class="cart-btn-remove" onclick="removeFromCart(${idx})">
@@ -1622,8 +1718,8 @@ function renderCartPage() {
     tableBody.appendChild(row);
   });
   
-  document.getElementById('cartSubtotal').innerText = Number(subtotal).toLocaleString() + ' تومان';
-  document.getElementById('cartFinalTotal').innerText = Number(subtotal).toLocaleString() + ' تومان';
+  document.getElementById('cartSubtotal').innerText = toPersianNumber(Number(subtotal).toLocaleString()) + ' تومان';
+  document.getElementById('cartFinalTotal').innerText = toPersianNumber(Number(subtotal).toLocaleString()) + ' تومان';
 }
 
 function increaseQty(idx) {
